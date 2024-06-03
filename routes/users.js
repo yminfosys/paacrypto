@@ -678,6 +678,7 @@ router.post('/newPasswordRequest', async function(req, res, next) {
           email:user.email,
           mobile:user.mobile,
           newPassword:req.body.newPasw,
+          countryCode:user.countryCode,
           status:"New"
         })
         await forgetPasswor.save();

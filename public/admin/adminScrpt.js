@@ -134,7 +134,7 @@ function completeVerification(userID){
 
 function dateFormat(date,frmat){  
     var year=date.getFullYear();  
-    var month=date.getMonth(); 
+    var month=date.getMonth()+1; 
     var day=date.getDate();
     var hours=date.getHours();
     var minutes=date.getMinutes();
@@ -184,6 +184,50 @@ function usdtList(){
    
 
 }
+
+
+function forgetpasswordInit(){
+    // $("#forgetpassword").css({"display":"block"});
+    // $("#forgetpassword").html('<div  class="col-xs-12 col-sm-12">\
+    // <div class="panel panel-danger">\
+    //     <div class="panel-heading">\
+    //             <h3 class="panel-title">Forget Password List</h3>\
+    //     </div>\
+    //     <div class="panel-body">\
+    //           <ul class="list-group" id="forgetList">\
+    //           </ul>\
+    //     </div>\
+    // </div>')
+    $.post('/admin/forgetpasswordlist',{},function(fgpwlist){
+        $("#forgetList").html();
+        if(fgpwlist.length >0 ){
+            fgpwlist.forEach(val => {
+                $("#forgetList").append('\
+                <li class="list-group-item">\
+               <p>Name: '+val.userName+' <br>Mobile:'+val.countryCode+' '+val.mobile+' \
+                <br>Email : '+val.email+'</p>\
+                <span onclick="setNewPassword(\'' +val.userID + '\',\'' + val.newPassword + '\')" class="badge bg-success">Accept</span>\
+                <span onclick="setNewPasswordCancel(\'' +val.userID + '\',\'' + val.newPassword + '\')" class="badge bg-danger">Reject</span>\
+               </li>')  
+            });
+          
+        }
+    })
+
+}
+
+function setNewPassword(userID,newPassword){
+$.post('/admin/setNewPassword',{userID:userID,newPassword:newPassword},function(data){
+    forgetpasswordInit();
+})
+}
+
+function setNewPasswordCancel(userID,newPassword){
+    $.post('/admin/setNewPasswordCalcel',{userID:userID},function(data){
+        forgetpasswordInit();
+    })
+}
+
 
 // function addFundRecive(e){
 //     e.preventDefault();

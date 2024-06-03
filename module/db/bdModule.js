@@ -31,7 +31,7 @@ var usermodul = mongoose.model('cashwalletusers', userSchema);
 const forgetPasswordSchema = new mongoose.Schema({ 
     userName:String,
     userID:Number,
-    rootID:String,
+    countryCode:String,
     email:String,
     mobile:String,
     newPassword:String,
