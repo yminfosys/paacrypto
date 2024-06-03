@@ -1,0 +1,520 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Paa Cash Wallet</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta  name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="icon" href="/images/logo/logo.png" type="image/gif" sizes="32x32">
+    <!-- <link rel="shortcut icon" href="./assets/image/favicon-32x32.png" type="image/gif" sizes="32x32">
+     <link rel="apple-touch-icon" href="./assets/image/apple-touch-icon.png" type="image/gif"> -->
+
+     <link href="/user/user.css" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+
+        <script src="/admin/adminScrpt.js"></script>
+        
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+     <!-- check alredy login -->
+     <input type="hidden" id="allredyloginuserID" value="<%=allredylogin%>">
+
+
+    <header>
+      <!-- place navbar here -->
+      <nav id="topnav" style="display: none; background-color: #041b2b; color: aliceblue; " class="navbar fixed-top" >
+        <div class="container-fluid">
+              <a> <span style="background-color: #ccdbe6; " class="navbar-toggler-icon" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"></span></a>
+              <a class="navbar-brand" href="#"><img src="/images/logo/logo.png" alt="Logo" width="150" height="30" class="d-inline-block align-text-top"> </a>
+              <a>
+                <i class="fa fa-bell" aria-hidden="true"></i>
+              </a>
+        </div>
+      </nav>
+    </header>
+    <div id="topBacground" style="background-color: #041b2b;  height: 25vh; display:none"></div>
+
+   <div id="view"  class="container-fluid ">
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh;">
+            <div class="card-header"><h4>Add new Country</h4></div>
+            <div class="card-body">
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              <div class="mb-3">
+                <label for="countryName" class="form-label">Country Name :</label>
+                <input type="text" class="form-control" id="countryName" placeholder="India">
+
+                <label for="countryName" class="form-label">Country Code :</label>
+                <input type="text" class="form-control" id="countryCode" placeholder="+91">
+
+                <label for="countryName" class="form-label">Currency :</label>
+                <input type="text" class="form-control" id="countryCurrency" placeholder="INR">
+
+                <label for="countryName" class="form-label">Currency Symbol :</label>
+                <input type="text" class="form-control" id="currencySymbol" placeholder="&amp;#8377;">
+                
+                <button onclick="addModifyCountry()" style="margin-top: 2vh;" type="button" class="btn btn-success">Submit </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh;">
+            <div class="card-header"><h4>Transaction Charges</h4></div>
+            <div class="card-body">
+              
+              <div class="mb-3">
+
+                <label for="countryName" class="form-label">Currency :</label>
+                <select class="form-select" id="currencyFee" aria-label="">
+                  <option value="">Select</option>
+                </select>
+
+                <label for="countryName" class="form-label">Limit Amount :</label>
+                <input type="text" class="form-control" id="limitAmount" >
+
+                <label for="countryName" class="form-label">Charges :</label>
+                <input type="text" class="form-control" id="transactionCgarge" >
+                
+                <button onclick="submitTransactionCharges()" style="margin-top: 2vh;" type="button" class="btn btn-success">Submit </button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh;">
+            <div class="card-header"><h4>Fund Recived Wallte</h4></div>
+            <div class="card-body">
+              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              <div class="mb-3">
+                <form id="formId" action="/admin/uploadFundRecive"  enctype="multipart/form-data" method="post">
+                <label for="countryName" class="form-label">Virtual Address :</label>
+                <input type="text" class="form-control" name="virtualAddress">
+
+                <label for="countryName" class="form-label">Pay Network Chennei :</label>
+                <input type="text" class="form-control" name="networkChannel" value="BEP-20">
+
+                <label for="countryName" class="form-label">Crypto Currency :</label>
+                <input type="text" class="form-control" name="cryptoCurrency" value="USDT">
+
+                <label for="countryName" class="form-label">Qr Code :</label>
+                <input type="file" class="form-control" name="QRcode">
+
+                <button style="margin-top: 2vh;" type="submit" class="btn btn-success">Submit </button>
+                
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh; height: 50vh; overflow-y:auto;">
+            <div class="card-header"><h4>Fund Deposit Requiest</h4></div>
+            <div class="card-body">
+             <ul  id="dipositRequestList" class="list-group">
+              <!-- <li class="list-group-item">
+                <span style="font-size: medium;" class="badge bg-secondary float-end">2000 USDT</span>
+                <P class="">Account no: 123456765676 <br>Mobile: 8509239522<br>Email:sukanta@gmail.com</P>
+                <img onclick="imageZoom(123456765676)" id="123456765676" style="width: 20%; height: 20%;" class=" img-thumbnail float-end " src="https://paacab.fra1.digitaloceanspaces.com/1715718676519-paa%20cash%20wallet%20logo.png" alt="scrn">
+                <P class="">Paa Txid: 1234<br>Crypto txid: 1wsw24fe5tgtr6yhn<br>Date: 12-12-1212</P>
+                <button type="button" class="btn btn-success btn-sm">Accept</button>
+                <button type="button" class="btn btn-danger btn-sm">Reject</button>
+              </li> -->
+             </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        var tog=0;
+        function imageZoom(id){
+          if(tog==0){
+            $("#"+id+"").css({"width": "100%"});
+            tog=1;
+          }else{
+            $("#"+id+"").css({"width": "20%", "height": "20%"});
+            tog=0;
+          }
+          
+        }
+      </script>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh; height: 50vh; overflow-y:auto;">
+            <div class="card-header"><h4>Account Verification Requiest</h4></div>
+            <div class="card-body">
+              <ul id="accountVerification" class="list-group">
+               <!-- <li class="list-group-item">
+                 <P class="">UserID: 68 <br>Gov ID: PAN [ ADCDD1232E ]<br>Address : ads1,ads2, pin- 700126, City, country, <br>Date: 12-12-1212</P>
+                 <img onclick="imageZoom(345)" id="345" style="width: 20%; height: 20%;" class=" img-thumbnail float-end " src="https://paacab.fra1.digitaloceanspaces.com/1715718676519-paa%20cash%20wallet%20logo.png" alt="scrn">
+                 <img onclick="imageZoom(12345676567)" id="12345676567" style="width: 20%; height: 20%;" class=" img-thumbnail float-end " src="https://paacab.fra1.digitaloceanspaces.com/1715718676519-paa%20cash%20wallet%20logo.png" alt="scrn">
+                 <button type="button" class="btn btn-success btn-sm ">Verified</button>
+                 <button type="button" class="btn btn-danger btn-sm ">Reject</button>
+                 <div class="">
+                    <br><video class="float-end" width="160" height="120" controls>
+                      <source src="https://fra1.digitaloceanspaces.com/paacab/34874a1c93bbd74d144d6a8b589d0635" type="video/mp4">
+                    </video>
+                 </div>
+               </li> -->
+              </ul>
+             </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="card" style="margin-top: 5vh;">
+            <div class="card-header"><h4>Update Usdt Rate</h4></div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="exampleInputText1" class="form-label">Country</label>
+                <select id="countryList" class="form-select" aria-label="Default select example">
+                  <option value="">Select</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputText1" class="form-label">USDT Rate:</label>
+                <input type="text" class="form-control" id="usdtRate">
+              </div>
+              <button onclick="updateUsdtRate()" type="button" class="btn btn-success">Update</button>
+            </div>
+            <div class="card-body">
+              <ul  id="usdtList" class="list-group">
+                <li class="list-group-item">
+                 <p class="">Country : india [INR] - USDT Rate:89.98</p>
+                </li>
+               </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    <!-- Login -->
+   
+    <!-- <div class="row mb-3">
+      <div style="text-align: center; margin-top: 15vh;" class="col">
+        <div style="font-size: 35px; font-weight:bold;">Log in</div>
+        <span>Fill the form to log in</span>
+      </div>
+    </div>
+    <div class="card mb-3" style="background-color: #ccdbe6;">
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input style=" text-decoration: none;"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label ">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+      </div>
+    </div>
+    <p class="float-start">Register</p>
+    <p class="float-end">Forget Password</p>
+    <div class="fixed-bottom">
+        <div class="container-fluid mb-3">
+          <div  class="d-grid gap-2">
+            <button class="btn btn-primary " type="button">Login</button>
+          </div>
+        </div>
+    </div> -->
+
+ 
+    <!-- Login -->
+
+    <!-- Rigister -->
+    <!-- <p class="mt-2 float-end">Login</p>
+    <div class="row mb-3">
+      <div style="text-align: center; margin-top: 15vh;" class="col">
+        <div style="font-size: 35px; font-weight:bold;">Register Now</div>
+        <span>Create an account</span>
+      </div>
+    </div>
+
+    <div class="card" style="background-color: #ccdbe6;">
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input style=" text-decoration: none;"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">+91</span>
+            <input type="text" class="form-control"  aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        
+      </div>
+    </div>
+      <div class="fixed-bottom">
+        <div class="container-fluid mb-3">
+          <div  class="d-grid gap-2">
+            <button class="btn btn-primary " type="button">Register</button>
+          </div>
+        </div>
+    </div> -->
+
+ 
+    <!-- Register -->
+
+
+ <!-- Dashboarb -->
+
+ <div style="display: none;">
+    <div style="margin-top: -15vh;" class="card mb-3">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            <p>Balance</p>
+            <p style="font-size: 20px; font-weight:bold;">&#x20B9; 10234.00</p>
+          </div>
+          <div class="col">
+            <button  type="button" class="btn btn-dark float-end" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col" style="text-align: center;">
+            <button type="button" class="btn btn-danger"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+            <br><span style="font-size:xx-small;" >Withdraw</span>
+          </div>
+          <div class="col"  style="text-align: center;" >
+            <button type="button" class="btn btn-info"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+            <br><span style="font-size:xx-small;" >Send</span>
+          </div>
+          <div class="col" style="text-align: center;">
+            <button type="button" class="btn btn-success"><i class="fa fa-qrcode" aria-hidden="true"></i></button>
+            <br><span style="font-size:xx-small;" >Secn</span>
+          </div>
+          <div class="col" style="text-align: center;">
+            <button type="button" class="btn btn-primary"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+            <br><span style="font-size:xx-small;" >Convert</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <div class="row">
+      <div class="col mb-3 mb-sm-0">
+        <div style="background-color: #041b2b; color: #ccdbe6;" class="card">
+          <div class="card-body">
+            <h5 class="card-title">Euro</h5>
+            <p class="card-text">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div style="background-color: #041b2b; color: #ccdbe6;" class="card">
+          <div class="card-body">
+            <h5 class="card-title">Pound</h5>
+            <p class="card-text">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mb-3 mb-sm-0">
+        <div style="background-color: #041b2b; color: #ccdbe6;" class="card">
+          <div class="card-body">
+            <h5 class="card-title">Doller</h5>
+            <p class="card-text">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div style="background-color: #041b2b; color: #ccdbe6;" class="card">
+          <div class="card-body">
+            <h5 class="card-title">Taka</h5>
+            <p class="card-text">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <ol class="list-group list-group-numbered list-group-item-dark">
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-start mb-2">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Subheading</div>
+          Content for list item
+        </div>
+        <span class="badge text-bg-primary rounded-pill">14</span>
+      </li>
+    </ol>
+    
+
+
+
+
+<div style="margin-bottom: 50px !important;" class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body small">
+    ...
+  </div>
+</div>
+    <div style="background-color: #3a5c74; width: 80% !important;" class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div>
+          Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+        </div>
+        <div class="dropdown mt-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#"  data-bs-dismiss="offcanvas" aria-label="Close">Something else here</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+    </div>
+
+
+
+   <!-- Dashboarb -->
+
+
+   </div>
+
+   
+   
+
+    <footer>
+      <!-- place footer here -->
+      <nav id="footnav" style="display: none;" class="navbar fixed-bottom bg-body-tertiary">
+        <div class="container-fluid">
+        <div style="text-align: center; font-size: small;" >
+          <i style="font-size: 30px;" class="fa fa-home" aria-hidden="true"></i>
+          <br>Home
+        </div>
+
+        <div style="text-align: center; font-size: small;" >
+          <i style="font-size: 30px;" class="fa fa-file-text" aria-hidden="true"></i>
+          <br>Transection
+        </div>
+
+        <div style="text-align: center; font-size: small;" >
+          <i style="font-size: 30px;" class="fa fa-btc" aria-hidden="true"></i>
+          <br>Currency
+        </div>
+
+        <div style="text-align: center; font-size: small;" >
+          <i style="font-size: 30px;" class="fa fa-cog" aria-hidden="true"></i>
+          <br>Seting
+        </div>
+
+        <div style="text-align: center; font-size: small;" >
+          <i style="font-size: 30px;" class="fa fa-life-ring" aria-hidden="true"></i>
+          <br>Help
+        </div>
+        
+        </div>
+      </nav>
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"crossorigin="anonymous"></script>
+  </body>
+</html>
+
