@@ -199,7 +199,7 @@ function forgetpasswordInit(){
     //     </div>\
     // </div>')
     $.post('/admin/forgetpasswordlist',{},function(fgpwlist){
-        $("#forgetList").html();
+        $("#forgetList").html('');
         if(fgpwlist.length >0 ){
             fgpwlist.forEach(val => {
                 $("#forgetList").append('\
@@ -211,6 +211,8 @@ function forgetpasswordInit(){
                </li>')  
             });
           
+        }else{
+            $("#forgetList").html('');
         }
     })
 

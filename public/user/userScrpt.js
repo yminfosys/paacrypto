@@ -407,7 +407,7 @@ function logout(){
 \
 <div id="multiCurrency">\
 </div>\
-<ol id="last10Transaction" class="list-group list-group-numbered list-group-item-dark">\
+<ol id="last10Transaction" style="margin-bottom: 8vh;" class="list-group list-group-numbered list-group-item-dark">\
 </ol>')
 
 multiCurrency(userID)
@@ -896,7 +896,7 @@ function multiCurrency(userID){
       if(data.tpin=="Varified"){
       //<img style="width: 60%; margin-left: 20%;" src="/images/logo/logo.png" class="card-img-top mt-2" alt="...">\
       $("#topBacground").css({"display":"none"});
-      $("#view").html('<div class="card" style="margin-top: 8vh;">\
+      $("#view").html('<div class="card" style="margin-top: 8vh; margin-bottom: 8vh; overflow-y: auto; ">\
       <div class="card-body">\
         <div  class="card-header text-center mb-3">\
           <span class="mb-2 p-2">To '+data.to+'</span>\
