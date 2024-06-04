@@ -74,7 +74,7 @@ function loginClick(){
   <p onclick="forgetpassword()" class="float-end">Forget Password</p>\
   <div class="fixed-bottom">\
       <div class="container-fluid mb-3">\
-        <div  class="d-grid gap-2">\
+        <div id="loginBtn" class="d-grid gap-2">\
           <button onclick="loginProcess()" class="btn btn-primary " type="button">Login</button>\
         </div>\
       </div>\
@@ -118,7 +118,7 @@ function regClick(){
     </div>\
       <div class="fixed-bottom">\
         <div class="container-fluid mb-3">\
-          <div  class="d-grid gap-2">\
+          <div id="registerBtn" class="d-grid gap-2">\
             <button onclick="newRegister()" class="btn btn-primary " type="button">Register</button>\
           </div>\
         </div>\
@@ -179,6 +179,9 @@ function newRegister(){
           $("#password").focus()
           return
       } 
+
+      $("#registerBtn").attr('disabled','disabled');
+      
       ////////Check Exist user///////
       $.post('/user/checkExistuser',{mobileNo:mobileNo,email:email},function(data){
         if(!data){
@@ -310,6 +313,7 @@ function logout(){
   
 
   function loginProcess(){
+    protectButton('loginBtn');
     var loginEmail=$("#loginEmail").val().replace(/\s/g, '');
     var loginPassword=$("#loginPassword").val().trim();
 
@@ -856,6 +860,7 @@ function multiCurrency(userID){
   }
 
   function sendMoneylInt(userID){
+
     $.post('/user/getUser',{userID:userID},function(user){
       if(user.varyficatinStatus=="Verified"){
         $("#topBacground").css({"display":"none"});
@@ -1244,12 +1249,15 @@ function multiCurrency(userID){
   }
 
   function desebleSubmitBtn(){
-    
     $("#kycsubmitArea").html('<img style="height: 30px; width: 30px;" src="/images/gif/progress.gif">')
   }
 
   function depositSubmit(){
     $("#fundButton").html('<img style="height: 30px; width: 30px;" src="/images/gif/progress.gif">')
+  }
+
+  function protectButton(id){
+    $("#"+id+"").html('<img style="height: 30px; width: 30px;" src="/images/gif/progress.gif">')
   }
 
   
