@@ -463,7 +463,8 @@ router.post('/getTransactionsDetails', async function(req, res, next) {
    fromAc = trns[0].accountFrom;
   }
   
- 
+    console.log(trnsFee);
+
   var transactionAmt=0;
 
   if(trns[0].transactionType == "Withdrawl"){
@@ -475,14 +476,17 @@ router.post('/getTransactionsDetails', async function(req, res, next) {
   }
 
   var transactionFee=0;
-  
-  if(trnsFee.transactionType == "Withdrawl"){
-    transactionFee= trnsFee.withdralFaitAmount;
-  }else{
-    if(trnsFee.transactionType == "Deposit"){
-    transactionFee= trnsFee.depositFaitAmount;
+  if(trnsFee){
+    if(trnsFee.transactionType == "Withdrawl"){
+      transactionFee= trnsFee.withdralFaitAmount;
+    }else{
+      if(trnsFee.transactionType == "Deposit"){
+      transactionFee= trnsFee.depositFaitAmount;
+      }
     }
   }
+  
+  
 
   res.json({
     status:trns[0].transactionStatus,
