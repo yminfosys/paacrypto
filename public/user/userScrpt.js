@@ -599,7 +599,7 @@ function multiCurrency(userID){
             amt=val.withdralFaitAmount;
           }
 
-          $("#last10Transaction").append('<li onclick="transactionDetails('+val.trasactionID+','+userID+')" class="list-group-item d-flex justify-content-between align-items-start mb-2">\
+          $("#last10Transaction").append('<li onclick="transactionDetails(\''+val.trasactionID+'\',\''+userID+'\')" class="list-group-item d-flex justify-content-between align-items-start mb-2">\
             <div class="ms-2 me-auto">\
               <div class="fw-bold">'+val.transactionType+'</div>\
               Txtd:'+val.trasactionID+'<br>Date: '+dateFormat(new Date(val.date),"dt")+'\
