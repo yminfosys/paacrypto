@@ -170,7 +170,7 @@ router.post('/uploadFundRecive', cpUpload, async function(req, res, next) {
 router.post('/getdipositRequest', async function(req, res, next) {
   try {
   await dbCon.connectDB()
-  const tangen= await db.tangenLedger.find({status:"Request"});
+  const tangen= await db.tangenLedger.find({status:"Request", transactionType:"Deposit"});
     await dbCon.closeDB();
     res.json(tangen);
   
@@ -222,6 +222,75 @@ router.post('/acceptDipositRequest', async function(req, res, next) {
 }
 
 });
+
+
+
+router.post('/getWithdrawlRequest', async function(req, res, next) {
+  try {
+  await dbCon.connectDB()
+  const tangen= await db.tangenLedger.find({status:"Request", transactionType:"Withdrawl"});
+    await dbCon.closeDB();
+    res.json(tangen);
+  
+  
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+router.post('/acceptWithdrawlRequest', async function(req, res, next) {
+  try {
+  await dbCon.connectDB()
+ const tangen= await db.tangenLedger.findOneAndUpdate({trasactionID:req.body.trasactionID},{$set:{status:"Accept"}});
+ //status:"Accept"
+  const user= await db.user.findOne({userID:tangen.userID});
+  const transLager= await db.transactionledger({
+    userID:user.userID,
+    trasactionID:req.body.trasactionID,
+    /////Transact from
+    accountFrom:user.accountNumber,
+    userNameFrom:user.userName,
+    /////Transact to/////
+    accountTo:user.accountNumber,
+    userNameTo:user.userName,
+    transactionType:"Withdrawl",
+    withdralFaitAmount:tangen.fiatCurrency,
+    withdralusdtAmount:tangen.withdralAmount,
+    cryptoCurrency:"USDT",
+    fiatCurrency:tangen.currency,
+    remarks:"Withdrawl by Crypto Wallet",
+    transactionStatus:"Success"
+   }) 
+   await transLager.save();
+    //////Frize Amount  Update//////////
+    const myCurrency= await db.mycurrency.findOne({userID:user.userID, currency: tangen.currency});
+    if(myCurrency.frzeeFiatAmount && myCurrency.frzeeUsdtAmount){
+     var frzeeAmt = Number(myCurrency.frzeeFiatAmount) - Number(tangen.fiatCurrency);
+     var frzeeUsdt = Number(myCurrency.frzeeUsdtAmount) - Number(tangen.withdralAmount);
+    }else{
+     var frzeeAmt = Number(tangen.fiatCurrency);
+     var frzeeUsdt = Number(tangen.withdralAmount);
+    }
+
+   const myCurrencyFrzee= await db.mycurrency.findOneAndUpdate({userID:user.userID, currency: tangen.currency},{$set:{
+    frzeeFiatAmount:frzeeAmt,
+    frzeeUsdtAmount:frzeeUsdt,
+   }})
+   await dbCon.closeDB();
+    res.json(tangen);
+
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+
 
 router.post('/getverificationRequest', async function(req, res, next) {
   try {

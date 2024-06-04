@@ -166,6 +166,8 @@ router.post('/newregister', async function(req, res, next) {
           currencySymbol:req.body.currencySymbol,
           lastcheckBalance:'0.00',
           lastCheckUsdtAmount:'0.00',
+          frzeeFiatAmount:'0.00',
+          frzeeUsdtAmount:'0.00',
           lastCheckDate:moment().utc().toDate()
         });
         await newmyCurrency.save();
@@ -270,6 +272,7 @@ router.post('/fundDeposit', cpUpload, async function(req, res, next) {
     if(user){
       const newDeposit= await db.tangenLedger({
         trasactionID:uid,
+        transactionType:"Deposit",
         depositAmount:req.body.depositAmount,
         cryptoCurrency:"USDT",
         cryptoTransactionID:req.body.transactionid,
@@ -350,6 +353,7 @@ router.post('/updateMultiCurrencyBalance', async function(req, res, next) {
        if(Number(data[0].deposit) > 0){
           lastcheckBalance=Number(lastcheckBalance) + Number(data[0].deposit);
           lastCheckUsdtAmount=Number(lastCheckUsdtAmount) + Number(data[0].depositUsdt);
+
         }
 
         if(Number(data[0].withdral) > 0){
@@ -388,6 +392,7 @@ async function ledgerBalanceCalculetor(req,cb){
     var depositUsdt = 0;
     var withdralAmount = 0;
     var withdralUsdt = 0;
+   
 
         StartTime = moment(myCurrency.lastCheckDate).utc();
         EndTime = moment().utc();
@@ -402,13 +407,17 @@ async function ledgerBalanceCalculetor(req,cb){
           if(transacLadger.length > 0){
             transacLadger.forEach(function(val, indx, arry) {
               if(val.depositFaitAmount){
+
                 depositAmount=Number(depositAmount) + Number(val.depositFaitAmount);
                 depositUsdt=Number(depositUsdt) + Number(val.dipositusdtAmount);
+                
+               
               }
 
               if(val.withdralFaitAmount){
                 withdralAmount=Number(withdralAmount) + Number(val.withdralFaitAmount);
                 withdralUsdt=Number(withdralUsdt) + Number(val.withdralusdtAmount);
+                
               }
 
               if (indx === arry.length - 1) {
@@ -440,6 +449,60 @@ router.post('/transactionMiniStatement', async function(req, res, next) {
   return error;
 }
 })
+
+router.post('/getTransactionsDetails', async function(req, res, next) {
+  try {
+    const out=[]
+  await dbCon.connectDB();
+  const trns= await db.transactionledger.find({userID:req.body.userID,trasactionID:req.body.trasactionID,TransacFee: {$ne : "Yes"}});
+  const mycuerrency= await db.mycurrency.findOne({userID:req.body.userID,currency:trns[0].fiatCurrency});
+  const trnsFee= await db.transactionledger.findOne({userID:req.body.userID,trasactionID:req.body.trasactionID,TransacFee:"Yes"});
+  await dbCon.closeDB();
+  var fromAc=""
+  if(trns[0].accountFrom){
+   fromAc = trns[0].accountFrom;
+  }
+  
+ 
+  var transactionAmt=0;
+
+  if(trns[0].transactionType == "Withdrawl"){
+    transactionAmt= trns[0].withdralFaitAmount;
+  }else{
+    if(trns[0].transactionType == "Deposit"){
+    transactionAmt= trns[0].depositFaitAmount;
+    }
+  }
+
+  var transactionFee=0;
+  
+  if(trnsFee.transactionType == "Withdrawl"){
+    transactionFee= trnsFee.withdralFaitAmount;
+  }else{
+    if(trnsFee.transactionType == "Deposit"){
+    transactionFee= trnsFee.depositFaitAmount;
+    }
+  }
+
+  res.json({
+    status:trns[0].transactionStatus,
+    amount:transactionAmt,
+    symbol:mycuerrency.currencySymbol,
+    fee:transactionFee,
+    to:trns[0].userNameTo,
+    toAccount:trns[0].accountTo,
+    date:trns[0].date,
+    referance:"USDT Sale",
+    txid:trns[0].trasactionID,
+    fromAccount:fromAc,
+  })
+}catch (error) {
+  console.log(error);
+  return error;
+}
+})
+
+
 
 router.post('/verifyPassword', async function(req, res, next) {
   try {
@@ -500,7 +563,7 @@ router.post('/verifyAccountno', async function(req, res, next) {
     if(reciverCurrency){
       const senderCurrency= await db.mycurrency.findOne({userID:req.body.senderuserID, currency:req.body.senderMyCurrency});
       await dbCon.closeDB();
-      res.json({status:"success",balance:senderCurrency.lastcheckBalance,reciveruser:reciveruser});
+      res.json({status:"success",senderCurrency:senderCurrency,reciveruser:reciveruser});
     }else{
       await dbCon.closeDB();
       res.json({status:"currencyNotAvailable"});
@@ -591,6 +654,7 @@ router.post('/sentAmountToReceverAccount', async function(req, res, next) {
         transactionType:"Withdrawl",
         withdralFaitAmount:senderCharges,
         withdralusdtAmount:senderusdtChargs,
+        TransacFee:"Yes",
         cryptoCurrency:"USDT",
         fiatCurrency:req.body.senderCurrency,
         remarks:"Transfer Charges",
@@ -656,6 +720,61 @@ router.post('/getWithdrawlparameter', async function(req, res, next) {
   await dbCon.closeDB();
   res.json(mycuerrency);
   
+}catch (error) {
+  console.log(error);
+  return error;
+}
+});
+
+router.post('/withdrawlByCrypto', async function(req, res, next) {
+  try {
+    var usdtrate = Number(req.body.myBalance) / Number(req.body.myUsdtBalance);
+    var fait = Number(req.body.UsdtWithdrawlAmt) * Number(usdtrate);
+  await dbCon.connectDB();
+  const user = await db.user.findOne({userID:req.body.userID});
+  var uid = (new Date().getTime()).toString(9);
+ 
+ if(user){
+      if(Number(req.body.txnPin) == Number(user.transactionPin)){
+       
+        const newWithdrawl= await db.tangenLedger({
+          trasactionID:uid,
+          transactionType:"Withdrawl",
+          withdralAmount:req.body.UsdtWithdrawlAmt,
+          cryptoWalletAddress:req.body.usdtTokenAddress,
+          cryptoCurrency:"USDT",
+          fiatCurrency:fait,
+          currency:req.body.myCurrency,
+          userID:user.userID,
+          accountNumber:user.accountNumber,
+          email:user.email,
+          mobile:user.mobile,
+          countryCode:user.countryCode,
+          status:"Request"
+          });
+       await newWithdrawl.save();
+       //////Frize Amount  To Lock //////////
+       const myCurrency= await db.mycurrency.findOne({userID:req.body.userID, currency: req.body.myCurrency});
+       if(myCurrency.frzeeFiatAmount && myCurrency.frzeeUsdtAmount){
+        var frzeeAmt=Number(fait)+ Number(myCurrency.frzeeFiatAmount);
+        var frzeeUsdt=Number(req.body.UsdtWithdrawlAmt)+ Number(myCurrency.frzeeUsdtAmount);
+       }else{
+        var frzeeAmt=Number(fait);
+        var frzeeUsdt=Number(req.body.UsdtWithdrawlAmt);
+       }
+       const myCurrencyFrzee= await db.mycurrency.findOneAndUpdate({userID:req.body.userID, currency: req.body.myCurrency},{$set:{
+        frzeeFiatAmount:frzeeAmt,
+        frzeeUsdtAmount:frzeeUsdt,
+       }})
+        await dbCon.closeDB();
+        res.json({stutas:"200",uid:uid})
+      }else{
+        await dbCon.closeDB();
+        res.json({stutas:"404"})
+      }
+ }else{
+  console.log("UserID Not Found");
+ }
 }catch (error) {
   console.log(error);
   return error;

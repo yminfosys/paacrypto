@@ -114,6 +114,8 @@ const mycurrencySchema = new mongoose.Schema({
     currencySymbol: String,
     lastcheckBalance:String,
     lastCheckUsdtAmount:String,
+    frzeeFiatAmount:String,
+    frzeeUsdtAmount:String,
     lastCheckDate:{ type: Date}
 });
 var mycurrencymodul = mongoose.model('cashwalletmycurrencys', mycurrencySchema);
@@ -136,6 +138,7 @@ const transactionledgerSchema = new mongoose.Schema({
     accountTo:String,
     userNameTo:String,
     transactionType:String,
+    TransacFee:String,
     withdralFaitAmount:String,
     withdralusdtAmount:String,
     depositFaitAmount:String,
@@ -153,10 +156,12 @@ var transactionledgermodul = mongoose.model('cashwallettransactionledgers', tran
 
 const tangenLedgerSchema = new mongoose.Schema({ 
     trasactionID:String,
+    transactionType:String,
     depositAmount:String,
     withdralAmount:String,
     cryptoCurrency:String,
     fiatCurrency:String,
+    currency:String,
     cryptoWalletAddress:String,
     cryptoTransactionID:String,
     screenSort:String,

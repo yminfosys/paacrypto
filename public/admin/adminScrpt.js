@@ -100,6 +100,30 @@ function acceptDipositRequest(trasactionID){
     });
 }
 
+
+function getWithdrawlRequest(){
+    $.post('/admin/getWithdrawlRequest',{},function(data){
+       console.log(data)
+        $("#withdrawlRequestList").html('')
+        data.forEach(val => {
+            $("#withdrawlRequestList").append(' <li class="list-group-item">\
+            <span style="font-size: medium;" class="badge bg-secondary float-end">'+val.withdralAmount+' USDT</span>\
+            <P class="">Account no: '+val.accountNumber+' <br>Mobile: '+val.countryCode+'-'+val.mobile+'<br>'+val.email+'</P>\
+            <P class="">Paa Txid: '+val.trasactionID+'<br>Crypto Waller Address : '+val.cryptoWalletAddress+'<br>Date: '+val.date+'</P>\
+            <button onclick="acceptWithdrawlRequest(\''+val.trasactionID+'\')" type="button" class="btn btn-success btn-sm">Accept</button>\
+            <button type="button" class="btn btn-danger btn-sm">Reject</button>\
+          </li>');
+        });
+        
+    });
+}
+
+function acceptWithdrawlRequest(trasactionID){
+    $.post('/admin/acceptWithdrawlRequest',{trasactionID:trasactionID},function(data){
+        getWithdrawlRequest();
+    });
+}
+
 function getverificationRequest(){
     $.post('/admin/getverificationRequest',{},function(data){
        

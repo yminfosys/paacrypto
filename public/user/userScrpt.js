@@ -599,7 +599,7 @@ function multiCurrency(userID){
             amt=val.withdralFaitAmount;
           }
 
-          $("#last10Transaction").append('<li class="list-group-item d-flex justify-content-between align-items-start mb-2">\
+          $("#last10Transaction").append('<li onclick="transactionDetails('+val.trasactionID+','+userID+')" class="list-group-item d-flex justify-content-between align-items-start mb-2">\
             <div class="ms-2 me-auto">\
               <div class="fw-bold">'+val.transactionType+'</div>\
               Txtd:'+val.trasactionID+'<br>Date: '+dateFormat(new Date(val.date),"dt")+'\
@@ -617,6 +617,62 @@ function multiCurrency(userID){
       }
     })
    
+    
+  }
+
+  function transactionDetails(trasactionID,userID){
+
+    $.post('/user/getTransactionsDetails',{ userID:userID, trasactionID:trasactionID},function(data){
+      console.log(data)
+      if(!data.TransacFee){
+        $("#topBacground").css({"display":"none"});
+      $("#view").html('<div class="card" style="margin-top: 8vh; margin-bottom: 8vh; overflow-y: auto; ">\
+      <div class="card-body">\
+        <div  class="card-header text-center mb-3">\
+          <span class="mb-2 p-2">To '+data.to+'</span>\
+          <p style="font-size: 30px;">'+data.symbol+' '+Number(data.amount).toFixed(2)+'</p>\
+          <span style="border-radius: 10px; border: 1px solid #041b2b; color: #d9e3db; background-color: #0c892b;" class="p-2 h6 ">Fast Transfer</span>\
+         </div>\
+        <ul  class="list-group">\
+          <li class="list-group-item mb-3 p-3 bg-success active" aria-current="true">\
+             <span style="font-size: medium;" class="badge float-end">'+data.status+'</span>\
+            Status\
+          </li>\
+          <li class="list-group-item mb-2 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+data.toAccount+'</span>\
+            To Account No\
+          </li>\
+          <li class="list-group-item mb-2 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+dateFormat(new Date(data.date),"dt")+'</span>\
+            Date\
+          </li>\
+          <li class="list-group-item mb-2 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+data.referance+'</span>\
+            Referance\
+          </li>\
+          <li class="list-group-item mb-2 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+data.txid+'</span>\
+            Transaction ID\
+          </li>\
+          <li class="list-group-item mb-3 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+data.symbol+' '+Number(data.fee).toFixed(2)+'</span>\
+            Fee\
+          </li>\
+          <li class="list-group-item mb-3 p-3">\
+            <span style="font-size: medium; color: #000;" class="badge float-end">'+data.fromAccount+'</span>\
+            From Account No\
+          </li>\
+          <li class="list-group-item mb-3 p-3">\
+            <button onclick="getUserprofile('+userID+')" type="button" class="btn btn-success">Done</button>\
+          </li>\
+        </ul>\
+      </div>\
+    </div>')
+      }else{
+        alert('This Are the Fee Of TrxnID : '+trasactionID+'')
+      }
+    })
+
     
   }
 
@@ -642,6 +698,7 @@ function multiCurrency(userID){
       <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
       <p class="h1">Withdrawl</p>\
     </div>\
+    <div id="withdralTotalBody"  class="card-body">\
     <div class="mb-1 p-3">\
       <label for="formFile" class="form-label">Currency</label>\
       <select id="withdrawlMyCurrency" onchange="changeWithdralCurrency(this.value)"  class="form-select" aria-label="Default select example">\
@@ -662,6 +719,7 @@ function multiCurrency(userID){
     </div>\
     <div id="withdralBody"  class="card-body">\
     </div>\
+    </div>\
    </div>');
    getWidthrawlMycurrency(userID)
   }
@@ -671,8 +729,13 @@ function multiCurrency(userID){
       $.post('/user/senderGetMycurrency',{userID:userID},function(currency){
       if(currency.length > 0 ){
         currency.forEach(val => {
-          $("#withdrawlMyCurrency").append('<option value="'+val.currency+','+val.currencySymbol+','+val.lastcheckBalance+','+val.lastCheckUsdtAmount+'">'+val.currency+'</option>')
-          //console.log(val)
+          if(val.frzeeFiatAmount && val.frzeeUsdtAmount){
+            var selectValue=''+val.currency+','+val.currencySymbol+','+val.lastcheckBalance+','+val.lastCheckUsdtAmount+','+val.frzeeFiatAmount+','+val.frzeeUsdtAmount+''
+          }else{
+            var selectValue=''+val.currency+','+val.currencySymbol+','+val.lastcheckBalance+','+val.lastCheckUsdtAmount+',0,0'
+          }
+          
+          $("#withdrawlMyCurrency").append('<option value="'+selectValue+'">'+val.currency+'</option>');
         });
         }
       });
@@ -682,8 +745,8 @@ function multiCurrency(userID){
     var currency=currency.split(",");
     $("#withdrawlChannel").css({"display":"block"});
      $("#withdrawalCurrencydetails").html('<li class="list-group-item active  bg-gradient" aria-current="true">\
-      <span style="font-size: large;" class="badge bg-secondary float-end">USDT '+Number(currency[3]).toFixed(2)+'</span>\
-      '+currency[1]+' '+Number(currency[2]).toFixed(2)+'\
+      <span style="font-size: large;" class="badge bg-secondary float-end">USDT '+(Number(currency[3]) - (Number(currency[5]))).toFixed(2)+'</span>\
+      '+currency[1]+' '+(Number(currency[2]) - Number(currency[4])).toFixed(2)+'\
       <input id="myCurrency" type="hidden" value="'+currency[0]+'">\
       <input id="myBalance" type="hidden" value="'+currency[2]+'">\
       <input id="myUsdtBalance" type="hidden" value="'+currency[3]+'"></input>\
@@ -694,27 +757,25 @@ function multiCurrency(userID){
     var myCurrency=$("#myCurrency").val();
     var myBalance=$("#myBalance").val();
     var myUsdtBalance=$("#myUsdtBalance").val();
-    // $.post('/user/getWithdrawlparameter',{userID:userID},function(data){
-
-    // })
+   
     switch (val) {
       case "1":
        $("#withdralBody").html(' <div class="mb-3">\
-        <label for="exampleInputText1" class="form-label">USDT Token Address</label>\
-        <input type="text" class="form-control" id="" aria-describedby="textHelp">\
-        <div id="textHelp" class="text">BEP-20 Network Chennel</div>\
-      </div>\
-      <div class="mb-3">\
-        <label for="exampleInputText1" class="form-label">USDT</label>\
-        <input type="text" class="form-control" id="UsdtWithdrawl" aria-describedby="textHelp">\
-      </div>\
-      <div class="mb-3">\
-      <label style="width: 50%; margin-left: 25%; "  class="form-label text-center">T-Pin</label>\
-      <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
-      </div>\
-      <div class="d-grid gap-2">\
-        <button onclick="withdrawlCrypto('+userID+')" class="btn btn-primary" type="button">Submit</button>\
-      </div>')
+          <label for="exampleInputText1" class="form-label">USDT Token Address</label>\
+          <input type="text" class="form-control" id="usdtTokenAddress" aria-describedby="textHelp">\
+          <div id="textHelp" class="text">BEP-20 Network Chennel</div>\
+        </div>\
+        <div class="mb-3">\
+          <label for="exampleInputText1" class="form-label">USDT</label>\
+          <input type="text" class="form-control" id="UsdtWithdrawl" aria-describedby="textHelp">\
+        </div>\
+        <div class="mb-3">\
+        <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
+        <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
+        </div>\
+        <div class="d-grid gap-2">\
+          <button onclick="withdrawlCrypto('+userID+')" class="btn btn-primary" type="button">Submit</button>\
+        </div>')
         break;
 
         case "2":
@@ -737,8 +798,52 @@ function multiCurrency(userID){
     var myCurrency=$("#myCurrency").val();
     var myBalance=$("#myBalance").val();
     var myUsdtBalance=$("#myUsdtBalance").val();
+    var UsdtWithdrawl=$("#UsdtWithdrawl").val().trim();
+    var usdtTokenAddress=$("#usdtTokenAddress").val().trim();
+    var txnPin=$("#txnPin").val();
+    if(Number(myUsdtBalance) >= Number(UsdtWithdrawl) && Number(UsdtWithdrawl)!=0){
 
-    console.log(myCurrency,myBalance,myUsdtBalance)
+      if (usdtTokenAddress.length < 10 ) 
+        {
+            alert('Enter USDT Token');
+            $("#usdtTokenAddress").focus();
+            return 
+        }
+
+    if (txnPin.length == 0) 
+      {
+          alert('Enter T-Pin');
+          $("#txnPin").focus();
+          return 
+      }
+
+     $.post('/user/withdrawlByCrypto',{
+      userID:userID,
+      myCurrency:myCurrency,
+      myBalance:myBalance,
+      myUsdtBalance:myUsdtBalance,
+      UsdtWithdrawlAmt:UsdtWithdrawl,
+      usdtTokenAddress:usdtTokenAddress,
+      txnPin:txnPin
+     },function(data){
+      console.log(data)
+      if(data.stutas=="200"){
+        $("#withdralTotalBody").html('<div class="mb-3">\
+        <p>Your Withdrawl is Successfull<br>\
+        Transaction Ref Id: '+data.uid+'\
+        </P>\
+         </div>');
+      }else{
+        alert('Worng T-Pin Try again');
+        $("#txnPin").focus();
+      }
+     
+      });
+    }else{
+      alert("Worng USDT Amount");
+      $("#UsdtWithdrawl").focus();
+    }
+    
 
   }
 
@@ -812,13 +917,14 @@ function multiCurrency(userID){
       $.post('/user/verifyAccountno',{reciverAccountNo:reciverAccountNo,senderMyCurrency:senderMyCurrency, senderuserID:userID},function(res){
       if(res.status){
           if(res.status=="success"){
+            var senderBalance=Number(res.senderCurrency.lastcheckBalance) - Number(res.senderCurrency.frzeeFiatAmount);
             $("#sendAccountDetails").css({"display":"none"})
             $("#sendaccountBody").html('<p class="h6">Reciver Account Details:<br>Account No: '+res.reciveruser.accountNumber+'</p>\
             <p class="h6">Name: '+res.reciveruser.userName+'</p><hr>\
             <div id="sendDetails" class="mb-3">\
-              <label for="exampleInputText1" class="form-label float-end">Blance : '+res.balance+'</label>\
+              <label for="exampleInputText1" class="form-label float-end">Blance : '+Number(senderBalance).toFixed(2)+'</label>\
               <input id="senderCurrency" type="hidden" value ="'+senderMyCurrency+'">\
-              <input id="senderBalance" type="hidden" value ="'+res.balance+'">\
+              <input id="senderBalance" type="hidden" value ="'+senderBalance+'">\
               <input id="reciverAccountno" type="hidden" value ="'+res.reciveruser.accountNumber+'">\
               <input id="reciveruserID" type="hidden" value ="'+res.reciveruser.userID+'">\
               <label  for="exampleInputText1" class="form-label">Amount</label>\
@@ -950,10 +1056,9 @@ function multiCurrency(userID){
 
 /////////Account Verification///////
   function verifyNow(userID){
-    
     $("#topBacground").css({"display":"none"});
     $("#view").html(' <form id="formIdkyc" onsubmit="desebleSubmitBtn()" action="/user/kycUpload"  enctype="multipart/form-data" method="post">\
-    <div class="card" style="height: 90vh; margin-top: 9vh; background-color: rgb(78, 83, 83); color: antiquewhite;">\
+    <div class="card" style="height: 81vh; margin-top: 9vh; margin-bottom: 10vh; overflow-y: auto; background-color: rgb(78, 83, 83); color: antiquewhite;">\
      <div class="accordion" id="accordionPanelsStayOpenExample">\
        <div class="accordion-item">\
          <h2 class="accordion-header" id="panelsStayOpen-headingOne">\
