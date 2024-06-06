@@ -174,15 +174,31 @@ function getCountryList(){
     $.post('/admin/getCountryList',{},function(data){
         
         $("#countryList").html('');
-        $("#currencyFee").html('');
+       
         data.forEach(val => {
             $("#countryList").append('<option value="'+val.country+','+val.currency+'">'+val.country+'</option>');
-            $("#currencyFee").append('<option value="'+val.currency+'">'+val.currency+'</option>')
+           
             });
 
             usdtList();
         });
         
+}
+
+
+function getCurrencyList(){
+    $("#currencyFee").html('');
+    $.post('/admin/getCurrencyList',{},function(data){
+        if(data.length > 0){
+            data.forEach(val => {
+                console.log(val)
+                $("#currencyFee").append('<option value="'+val+'">'+val+'</option>')
+            })
+        }
+        
+
+    })
+
 }
 
 function updateUsdtRate(){
@@ -204,6 +220,7 @@ function usdtList(){
            </li>');
 
             }); 
+            getCurrencyList();
     })
    
 

@@ -369,6 +369,20 @@ router.post('/getCountryList', async function(req, res, next) {
 
 })
 
+router.post('/getCurrencyList', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const currency= await db.contry.find({}).distinct('currency');
+  await dbCon.closeDB();
+  res.json(currency)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+})
+
+
 
 
 router.post('/updateUsdtRate',  async function(req, res, next) {

@@ -313,7 +313,7 @@ function logout(){
   
 
   function loginProcess(){
-    protectButton('loginBtn');
+    //protectButton('loginBtn');
     var loginEmail=$("#loginEmail").val().replace(/\s/g, '');
     var loginPassword=$("#loginPassword").val().trim();
 
