@@ -1,557 +1,433 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<!-- Basic -->
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Finances &mdash; Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+  <link rel="stylesheet" href="finances-master/fonts/icomoon/style.css">
 
-    <!-- Site Metas -->
-    <title>Richrova</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <link rel="stylesheet" href="finances-master/css/bootstrap.min.css">
+  <link rel="stylesheet" href="finances-master/css/jquery-ui.css">
+  <link rel="stylesheet" href="finances-master/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="finances-master/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="finances-master/css/owl.theme.default.min.css">
 
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="#" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="#" />
+  <link rel="stylesheet" href="finances-master/css/jquery.fancybox.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/currency/css/bootstrap.min.css" />
-    <!-- Pogo Slider CSS -->
-    <link rel="stylesheet" href="/currency/css/pogo-slider.min.css" />
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="/currency/css/style.css" />
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="/currency/css/responsive.css" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/currency/css/custom.css" />
+  <link rel="stylesheet" href="finances-master/css/bootstrap-datepicker.css">
 
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <link rel="stylesheet" href="finances-master/fonts/flaticon/font/flaticon.css">
+
+  <link rel="stylesheet" href="finances-master/css/aos.css">
+
+  <link rel="stylesheet" href="finances-master/css/style.css">
 
 </head>
 
-<body style="background-image: url(/images/other/Richrova.png);" id="home" data-spy="scroll" data-target="#navbar-wd" data-offset="98">
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
-    <!-- LOADER -->
-    <div id="preloader">
-        <div class="loader">
-            <img src="/currency/images/loader.gif" alt="#" />
-        </div>
+
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
-    <!-- end loader -->
-    <!-- END LOADER -->
+  </div>
 
-    <!-- Start header -->
-    <header  class="top-header">
-        <div style="background-color: rgb(33, 28, 28);" class="header_top">
-            
-            <div  class="container">
-                <div class="row">
-                    <div class="logo_section">
-                        <a class="navbar-brand" href="/"><img src="./images/logo/logo.png" alt="image"></a>
-                    </div>
-                    <div class="site_information">
-                        <ul >
-                            <li><a href="mailto:exchang@gmail.com"><img src="/currency/images/mail_icon.png" alt="#" />info@richrova.co.uk</a></li>
-                            <li><a href="tel:exchang@gmail.com"><img src="/currency/images/phone_icon.png" alt="#" />+91 6291318393</a></li>
-                            <li><a class="join_bt" href="/user">Member</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
         </div>
-        <!-- <div class="header_bottom">
-          <div class="container">
-            <div class="col-sm-12">
-                <div class="menu_orange_section" style="background: #ff880e;">
-                   <nav class="navbar header-nav navbar-expand-lg"> 
-                     <div class="menu_section">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-wd" aria-controls="navbar-wd" aria-expanded="false" aria-label="Toggle navigation">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbar-wd">
-                    <ul class="navbar-nav">
-                        <li><a class="nav-link active" href="/">Home</a></li>
-                        <li><a class="nav-link" href="">About</a></li>
-                        <li><a class="nav-link" href="">Exchange</a></li>
-                        <li><a class="nav-link" href="">Services</a></li>
-                        <li><a class="nav-link" href="">News</a></li>
-                        <li><a class="nav-link" href="">Contact</a></li>
-                    </ul>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+    <header class="site-navbar js-sticky-header site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center">
+
+          <div class="col-6 col-xl-2">
+            <h1 class="mb-0 site-logo"><a href="/" class="h2 mb-0"><img src="/images/logo/logo.png" alt="Logo" width="120" height="40" class="d-inline-block align-text-top"><span class="text-primary">.</span>
+              </a></h1>
+          </div>
+
+          <div class="col-12 col-md-10 d-none d-xl-block" style="color: aliceblue !important;" >
+            <nav class="site-navigation position-relative text-right" role="navigation">
+
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="#home-section" style="color: aliceblue !important;" class="nav-link">Home</a></li>
+                <li class="has-children">
+                  <a href="#about-section" style="color: aliceblue !important;" class="nav-link">About Us</a>
+                  <ul class="dropdown">
+                    <li><a href="#team-section" style="color: aliceblue !important;" class="nav-link">Team</a></li>
+                    <li><a href="#pricing-section" style="color: aliceblue !important;" class="nav-link">Pricing</a></li>
+                    <li><a href="#faq-section" style="color: aliceblue !important;" class="nav-link">FAQ</a></li>
+                    <li><a href="index.html#gallery-section" style="color: aliceblue !important;" class="nav-link">Gallery</a></li>
+                    <li><a href="index.html#services-section" style="color: aliceblue !important;" class="nav-link">Services</a></li>
+                    <li><a href="index.html#testimonials-section" style="color: aliceblue !important;" class="nav-link">Testimonials</a></li>
+                    <li class="has-children">
+                      <a href="#">More Links</a>
+                      <ul class="dropdown">
+                        <li><a href="#">Menu One</a></li>
+                        <li><a href="#">Menu Two</a></li>
+                        <li><a href="#">Menu Three</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+
+
+                <li><a href="index.html#blog-section" style="color: aliceblue !important;" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#contact-section" style="color: aliceblue !important;" class="nav-link">Contact</a></li>
+                <li class="social"><a href="#contact-section" style="color: aliceblue !important;" class="nav-link"><span class="icon-facebook"></span></a>
+                </li>
+                <li class="social"><a href="#contact-section" style="color: aliceblue !important;" class="nav-link"><span class="icon-twitter"></span></a>
+                </li>
+                <li class="social"><a href="#contact-section" style="color: aliceblue !important;" class="nav-link"><span class="icon-linkedin"></span></a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+
+          <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3" style="position: relative; top: 3px;"><a href="#"
+              class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a></div>
+
+        </div>
+      </div>
+
+    </header>
+
+
+
+    <div class="site-blocks-cover overlay" style="background-image: url(finances-master/images/img_1.jpg);" data-aos="fade">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+    
+    
+          <div class="col-md-12 mt-lg-5 text-center">
+            <h1>Banking is good for business? Why?</h1>
+            <p class="post-meta">March 21, 2019 &bull; Posted by <a href="#">Free-Template.co</a> in <a href="#">Events</a>
+            </p>
+    
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <section class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 blog-content">
+            <div class="row mb-5">
+              <div class="col-lg-6">
+                <figure><img src="finances-master/images/img_3.jpg" alt="Image" class="img-fluid">
+                  <figcaption>This is an image caption</figcaption>
+                </figure>
+              </div>
+              <div class="col-lg-6">
+                <figure><img src="finances-master/images/img_4.jpg" alt="Image" class="img-fluid">
+                  <figcaption>This is an image caption</figcaption>
+                </figure>
+              </div>
+            </div>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda nihil aspernatur nemo sunt,
+              qui, harum repudiandae quisquam eaque dolore itaque quod tenetur quo quos labore?</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae expedita cumque necessitatibus ducimus debitis
+              totam, quasi praesentium eveniet tempore possimus illo esse, facilis? Corrupti possimus quae ipsa pariatur
+              cumque, accusantium tenetur voluptatibus incidunt reprehenderit, quidem repellat sapiente, id, earum
+              obcaecati.</p>
+    
+            <blockquote>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident vero tempora aliquam excepturi labore,
+                ad soluta voluptate necessitatibus. Nulla error beatae, quam, facilis suscipit quaerat aperiam minima
+                eveniet quis placeat.</p>
+            </blockquote>
+    
+            <p>Eveniet deleniti accusantium nulla natus nobis nam asperiores ipsa minima laudantium vero cumque cupiditate
+              ipsum ratione dicta, expedita quae, officiis provident harum nisi! Esse eligendi ab molestias, quod nostrum
+              hic saepe repudiandae non. Suscipit reiciendis tempora ut, saepe temporibus nemo.</p>
+            <p>Accusamus, temporibus, ullam. Voluptate consectetur laborum totam sunt culpa repellat, dolore voluptas.
+              Quaerat cum ducimus aut distinctio sit, facilis corporis ab vel alias, voluptas aliquam, expedita molestias
+              quisquam sequi eligendi nobis ea error omnis consequatur iste deleniti illum, dolorum odit.</p>
+            <p>In adipisci corporis at delectus! Cupiditate, voluptas, in architecto odit id error reprehenderit quam
+              quibusdam excepturi distinctio dicta laborum deserunt qui labore dignissimos necessitatibus reiciendis tenetur
+              corporis quas explicabo exercitationem suscipit. Nisi quo nulla, nihil harum obcaecati vel atque quos.</p>
+            <p>Amet sint explicabo maxime accusantium qui dicta enim quia, nostrum id libero voluptates quae suscipit dolor
+              quam tenetur dolores inventore illo laborum, corporis non ex, debitis quidem obcaecati! Praesentium maiores
+              illo atque error! Earum, et, fugit. Sint, delectus molestiae. Totam.</p>
+    
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa iste, repudiandae facere aperiam sapiente,
+              officia delectus soluta molestiae nihil corporis animi quos ratione qui labore? Sint eaque perspiciatis minus
+              illum.</p>
+            <p>Consectetur porro odio quod iure quaerat cupiditate similique, dolor reprehenderit molestias provident, esse
+              dolorum omnis architecto magni amet corrupti neque ratione sunt beatae perspiciatis? Iste pariatur omnis sed
+              ut itaque.</p>
+            <p>Id similique, rem ipsam accusantium iusto dolores sit velit ex quas ea atque, molestiae. Sint, sed. Quisquam,
+              suscipit! Quisquam quibusdam maiores fugiat eligendi eius consequuntur, molestiae saepe commodi expedita nemo!
+            </p>
+            <div class="pt-5">
+              <p>Categories: <a href="#">Design</a>, <a href="#">Events</a> Tags: <a href="#">#html</a>, <a
+                  href="#">#trends</a></p>
+            </div>
+    
+    
+            <div class="pt-5">
+              <h3 class="mb-5">6 Comments</h3>
+              <ul class="comment-list">
+                <li class="comment">
+                  <div class="vcard bio">
+                    <img src="finances-master/images/person_1.jpg" alt="Image">
+                  </div>
+                  <div class="comment-body">
+                    <h3>Jean Doe</h3>
+                    <div class="meta">January 9, 2018 at 2:21pm</div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus,
+                      ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum
+                      impedit necessitatibus, nihil?</p>
+                    <p><a href="#" class="reply">Reply</a></p>
+                  </div>
+                </li>
+    
+                <li class="comment">
+                  <div class="vcard bio">
+                    <img src="finances-master/images/person_1.jpg" alt="Image placeholder">
+                  </div>
+                  <div class="comment-body">
+                    <h3>Jean Doe</h3>
+                    <div class="meta">January 9, 2018 at 2:21pm</div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus,
+                      ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum
+                      impedit necessitatibus, nihil?</p>
+                    <p><a href="#" class="reply">Reply</a></p>
+                  </div>
+    
+                  <ul class="children">
+                    <li class="comment">
+                      <div class="vcard bio">
+                        <img src="finances-master/images/person_1.jpg" alt="Image placeholder">
+                      </div>
+                      <div class="comment-body">
+                        <h3>Jean Doe</h3>
+                        <div class="meta">January 9, 2018 at 2:21pm</div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus,
+                          ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum
+                          impedit necessitatibus, nihil?</p>
+                        <p><a href="#" class="reply">Reply</a></p>
+                      </div>
+    
+    
+                      <ul class="children">
+                        <li class="comment">
+                          <div class="vcard bio">
+                            <img src="images/person_1.jpg" alt="Image placeholder">
+                          </div>
+                          <div class="comment-body">
+                            <h3>Jean Doe</h3>
+                            <div class="meta">January 9, 2018 at 2:21pm</div>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum
+                              necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure!
+                              Quam voluptas earum impedit necessitatibus, nihil?</p>
+                            <p><a href="#" class="reply">Reply</a></p>
+                          </div>
+    
+                          <ul class="children">
+                            <li class="comment">
+                              <div class="vcard bio">
+                                <img src="finances-master/images/person_1.jpg" alt="Image placeholder">
+                              </div>
+                              <div class="comment-body">
+                                <h3>Jean Doe</h3>
+                                <div class="meta">January 9, 2018 at 2:21pm</div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum
+                                  necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste
+                                  iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                                <p><a href="#" class="reply">Reply</a></p>
+                              </div>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+    
+                <li class="comment">
+                  <div class="vcard bio">
+                    <img src="finances-master/images/person_1.jpg" alt="Image placeholder">
+                  </div>
+                  <div class="comment-body">
+                    <h3>Jean Doe</h3>
+                    <div class="meta">January 9, 2018 at 2:21pm</div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus,
+                      ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum
+                      impedit necessitatibus, nihil?</p>
+                    <p><a href="#" class="reply">Reply</a></p>
+                  </div>
+                </li>
+              </ul>
+              <!-- END comment-list -->
+    
+              <div class="comment-form-wrap pt-5">
+                <h3 class="mb-5">Leave a comment</h3>
+                <form action="#" class="p-5 bg-light">
+                  <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" class="form-control" id="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" class="form-control" id="email">
+                  </div>
+                  <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="url" class="form-control" id="website">
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" value="Post Comment" class="btn btn-primary">
+                  </div>
+    
+                </form>
+              </div>
+            </div>
+    
+          </div>
+          <div class="col-md-4 sidebar">
+            <div class="sidebar-box">
+              <form action="#" class="search-form">
+                <div class="form-group">
+                  <span class="icon fa fa-search"></span>
+                  <input type="text" class="form-control" placeholder="Type a keyword and hit enter">
                 </div>
-                     </div>
-                 </nav>
-                 <div class="search-box">
-                    <input type="text" class="search-txt" placeholder="Search">
-                    <a class="search-btn">
-                        <img src="/currency/images/search_icon.png" alt="#" />
-                    </a>
-                </div> 
-                </div>
+              </form>
+            </div>
+            <div class="sidebar-box">
+              <div class="categories">
+                <h3>Categories</h3>
+                <li><a href="#">Creatives <span>(12)</span></a></li>
+                <li><a href="#">News <span>(22)</span></a></li>
+                <li><a href="#">Design <span>(37)</span></a></li>
+                <li><a href="#">HTML <span>(42)</span></a></li>
+                <li><a href="#">Web Development <span>(14)</span></a></li>
+              </div>
+            </div>
+            <div class="sidebar-box">
+              <img src="finances-masterimages/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+              <h3>About The Author</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
+                quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit
+                cupiditate numquam!</p>
+              <p><a href="#" class="btn btn-primary btn-sm">Read More</a></p>
+            </div>
+    
+            <div class="sidebar-box">
+              <h3>Paragraph</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
+                quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit
+                cupiditate numquam!</p>
             </div>
           </div>
-        </div> -->
-        
-    </header>
-    <!-- End header -->
+        </div>
+      </div>
+    </section>
 
-    <!-- Start Banner -->
-    <!-- <div class="ulockd-home-slider">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="pogoSlider" id="js-main-slider">
-                    <div class="pogoSlider-slide" style="background-image:url(/currency/images/slide_img.png);">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="slide_text white_fonts">
-                                        <h3>Progress & Success<br><strong>Currency</strong></h3>
-                                        <br>
-                                        <a class="start_exchange_bt" href="">Start Exchange ></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pogoSlider-slide" style="background-image:url(/currency/images/slide_img.png);">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="slide_text white_fonts">
-                                        <h3>Progress & Success<br><strong>Currency</strong></h3>
-                                        <br>
-                                        <a class="start_exchange_bt" href="">Start Exchange ></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-                <!-- .pogoSlider -->
-            <!-- </div>
-        </div>
-    </div> -->
-    <!-- End Banner -->
-    
-	<!-- section -->
-    <!-- <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="full text_align_right_img">
-                        <img src="/currency/images/img1.png" alt="#" />
-                    </div>
-                </div>
-                <div class="col-md-6 layout_padding">
-                    <div class="full paddding_left_15">
-                        <div class="heading_main text_align_left">
-						   <h2><span class="theme_color">Welcome</span> To Exchange</h2>	
-                        </div>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <a class="main_bt" href="#">About more ></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-	<!-- end section -->
-    <!-- section -->
-    <!-- <div class="section layout_padding">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main text_align_center">
-                           <h2><span class="theme_color"></span>Services</h2>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="full services_blog">
-                       <img class="img-responsive" src="/currency/images/s1.png" alt="#" />
-                       <h4>Safe & Secure</h4>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="full services_blog">
-                        <img class="img-responsive" src="/currency/images/s2.png" alt="#" />
-                        <h4>Mobile Apps</h4>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="full services_blog">
-                        <img class="img-responsive" src="/currency/images/s3.png" alt="#" />
-                        <h4>Wallet</h4>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="full services_blog">
-                        <img class="img-responsive" src="/currency/images/s4.png" alt="#" />
-                        <h4>Experts Support</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="row margin-top_30">
-                <div class="col-sm-12">
-                    <div class="full">
-                        <div class="center">
-                            <a class="main_bt" href="#">About more ></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end section -->
-    <!-- section -->
-    <!-- <div class="section white_fonts" style="background: #2a2a2a;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6" style="background: #fff;">
-                    <div class="full text_align_right_img">
-                        <img src="/currency/images/img2.png" alt="#" />
-                    </div>
-                </div>
-                <div class="col-md-6 layout_padding">
-                    <div class="full paddding_left_15">
-                        <div class="heading_main text_align_left">
-                           <h2><span class="theme_color">Apply for</span> Exchange</h2>    
-                        </div>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <a class="main_bt" href="#">Exchange ></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end section -->
-	<!-- section -->
-    <!-- <div class="section layout_padding about_bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="full paddding_left_15">
-                        <div class="heading_main text_align_left">
-                           <h2>About</h2>    
-                        </div>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                    </div>
-                    <div class="full paddding_left_15">
-                        <a class="main_bt" href="#">Read More ></a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="full text_align_right_img">
-                        <img src="/currency/images/img3.png" alt="#" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end section -->
-	<!-- section -->
-    <!-- <div class="section layout_padding padding_top_0">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main text_align_center">
-                           <h2><span class="theme_color"></span>News</h2>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="full news_blog">
-                       <img class="img-responsive" src="/currency/images/b1.png" alt="#" />
-                       <div class="overlay"><a class="main_bt transparent" href="#">View</a></div>
-                       <div class="blog_details">
-                         <h3>Bitcoin News</h3>
-                         <p>pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                       </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="full news_blog">
-                        <img class="img-responsive" src="/currency/images/b2.png" alt="#" />
-                        <div class="overlay"><a class="main_bt transparent" href="#">View</a></div>
-                       <div class="blog_details">
-                         <h3>Ethereum News</h3>
-                         <p>pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                       </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="full news_blog">
-                        <img class="img-responsive" src="/currency/images/b3.png" alt="#" />
-                        <div class="overlay"><a class="main_bt transparent" href="#">View</a></div>
-                       <div class="blog_details">
-                         <h3>Light News</h3>
-                         <p>pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-                       </div>
-                    </div>
-                </div>
-             </div>
-        </div>
-    </div> -->
-    <!-- end section -->
-    <!-- section -->
-    <!-- <div class="section layout_padding padding_top_0">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main text_align_center">
-                           <h2><span class="theme_color"></span>Contact</h2>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end section -->
-    <!-- contact_form -->
-    <!-- <div class="section contact_form">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-sm-12 offset-lg-3">
-                    <div class="full">
-                        <form class="contact_form_inner" action="#">
-                            <fieldset>
-                                <div class="field">
-                                    <input type="text" name="name" placeholder="Your name" />
-                                </div>
-                                <div class="field">
-                                    <input type="email" name="email" placeholder="Email" />
-                                </div>
-                                <div class="field">
-                                    <input type="text" name="phone_no" placeholder="Phone number" />
-                                </div>
-                                <div class="field">
-                                    <textarea placeholder="Message"></textarea>
-                                </div>
-                                <div class="field center">
-                                    <button>SEND</button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- end contact_form -->
-    <!-- end section -->
-    <!-- Start Footer -->
-    <!-- <footer class="footer-box">
-        <div class="container">
-            <div class="row">
-               <div class="col-md-12 white_fonts">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-3">
-                            <div class="full">
-                                <img class="img-responsive" src="/images/logo/logo.png" alt="#" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
-                            <div class="full">
-                                <h3>Quick Links</h3>
-                            </div>
-                            <div class="full">
-                                <ul class="menu_footer">
-                                    <li><a href="#">> Home</a></li>
-                                    <li><a href="#">> About</a></li>
-                                    <li><a href="#">> Exchange</a></li>
-                                    <li><a href="#">> Services</a></li>
-                                    <li><a href="#">> New</a></li>
-                                    <li><a href="#">> Contact</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
-                            <div class="full">
-                                <div class="footer_blog full white_fonts">
-                             <h3>Newsletter</h3>
-                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
-                             <div class="newsletter_form">
-                                <form action="index.html">
-                                   <input type="email" placeholder="Your Email" name="#" required="">
-                                   <button>Submit</button>
-                                </form>
-                             </div>
-                         </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
-                            <div class="full">
-                                <div class="footer_blog full white_fonts">
-                             <h3>Contact us</h3>
-                             <ul class="full">
-                               <li><img src="/currency/images/i5.png"><span>81 Barrackpore Barasat Boad<br>Kolkata 700126</span></li>
-                               <li><img src="/currency/images/i6.png"><span>moneyremid@gmail.com</span></li>
-                               <li><img src="/currency/images/i7.png"><span>+91 6291318393</span></li>
-                             </ul>
-                         </div>
-                            </div>
-                        </div>
-					</div>
-                </div>
-			 </div>
-        </div>
-    </footer> -->
-    <!-- End Footer -->
 
-    <!-- <div class="footer_bottom">
-        <div class="container">
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
             <div class="row">
-                <div class="col-12">
-                    <p class="crp">© Copyrights 2019 design by html.design</p>
-                </div>
+              <div class="col-md-5">
+                <h2 class="footer-heading mb-4">About Us</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque facere laudantium magnam voluptatum
+                  autem. Amet aliquid nesciunt veritatis aliquam.</p>
+              </div>
+              <div class="col-md-3 ml-auto">
+                <h2 class="footer-heading mb-4">Quick Links</h2>
+                <ul class="list-unstyled">
+                  <li><a href="#about-section" class="smoothscroll">Terms</a></li>
+                  <li><a href="#about-section" class="smoothscroll">Policy</a></li>
+                  <li><a href="#about-section" class="smoothscroll">About Us</a></li>
+                  <li><a href="#services-section" class="smoothscroll">Services</a></li>
+                  <li><a href="#testimonials-section" class="smoothscroll">Testimonials</a></li>
+                  <li><a href="#contact-section" class="smoothscroll">Contact Us</a></li>
+                </ul>
+              </div>
+              <div class="col-md-3 footer-social">
+                <h2 class="footer-heading mb-4">Follow Us</h2>
+                <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+              </div>
             </div>
+          </div>
+          <div class="col-md-3">
+            <h2 class="footer-heading mb-4">Subscribe Newsletter</h2>
+            <form action="#" method="post" class="footer-subscribe">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control border-secondary text-white bg-transparent"
+                  placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary text-black" type="button" id="button-addon2">Send</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-    </div> -->
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <div class="border-top pt-5">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                  target="_blank">Colorlib</a>
+              </p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
-    <a href="#" id="scroll-to-top" class="hvr-radial-out"><i class="fa fa-angle-up"></i></a>
+            </div>
+          </div>
 
-    <!-- ALL JS FILES -->
-    <script src="/currency/js/jquery.min.js"></script>
-	<script src="/currency/js/popper.min.js"></script>
-    <script src="/currency/js/bootstrap.min.js"></script>
-    <!-- ALL PLUGINS -->
-    <script src="/currency/js/jquery.magnific-popup.min.js"></script>
-    <script src="/currency/js/jquery.pogo-slider.min.js"></script>
-    <script src="/currency/js/slider-index.js"></script>
-    <script src="/currency/js/smoothscroll.js"></script>
-    <script src="/currency/js/form-validator.min.js"></script>
-    <script src="/currency/js/contact-form-script.js"></script>
-    <script src="/currency/js/isotope.min.js"></script>
-    <script src="/currency/js/images-loded.min.js"></script>
-    <script src="/currency/js/custom.js"></script>
-	<script>
-	/* counter js */
+        </div>
+      </div>
+    </footer>
 
-(function ($) {
-	$.fn.countTo = function (options) {
-		options = options || {};
-		
-		return $(this).each(function () {
-			// set options for current element
-			var settings = $.extend({}, $.fn.countTo.defaults, {
-				from:            $(this).data('from'),
-				to:              $(this).data('to'),
-				speed:           $(this).data('speed'),
-				refreshInterval: $(this).data('refresh-interval'),
-				decimals:        $(this).data('decimals')
-			}, options);
-			
-			// how many times to update the value, and how much to increment the value on each update
-			var loops = Math.ceil(settings.speed / settings.refreshInterval),
-				increment = (settings.to - settings.from) / loops;
-			
-			// references & variables that will change with each update
-			var self = this,
-				$self = $(this),
-				loopCount = 0,
-				value = settings.from,
-				data = $self.data('countTo') || {};
-			
-			$self.data('countTo', data);
-			
-			// if an existing interval can be found, clear it first
-			if (data.interval) {
-				clearInterval(data.interval);
-			}
-			data.interval = setInterval(updateTimer, settings.refreshInterval);
-			
-			// initialize the element with the starting value
-			render(value);
-			
-			function updateTimer() {
-				value += increment;
-				loopCount++;
-				
-				render(value);
-				
-				if (typeof(settings.onUpdate) == 'function') {
-					settings.onUpdate.call(self, value);
-				}
-				
-				if (loopCount >= loops) {
-					// remove the interval
-					$self.removeData('countTo');
-					clearInterval(data.interval);
-					value = settings.to;
-					
-					if (typeof(settings.onComplete) == 'function') {
-						settings.onComplete.call(self, value);
-					}
-				}
-			}
-			
-			function render(value) {
-				var formattedValue = settings.formatter.call(self, value, settings);
-				$self.html(formattedValue);
-			}
-		});
-	};
-	
-	$.fn.countTo.defaults = {
-		from: 0,               // the number the element should start at
-		to: 0,                 // the number the element should end at
-		speed: 1000,           // how long it should take to count between the target numbers
-		refreshInterval: 100,  // how often the element should be updated
-		decimals: 0,           // the number of decimal places to show
-		formatter: formatter,  // handler for formatting the value before rendering
-		onUpdate: null,        // callback method for every time the element is updated
-		onComplete: null       // callback method for when the element finishes updating
-	};
-	
-	function formatter(value, settings) {
-		return value.toFixed(settings.decimals);
-	}
-}(jQuery));
+  </div> <!-- .site-wrap -->
 
-jQuery(function ($) {
-  // custom formatting example
-  $('.count-number').data('countToOptions', {
-	formatter: function (value, options) {
-	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-	}
-  });
-  
-  // start all the timers
-  $('.timer').each(count);  
-  
-  function count(options) {
-	var $this = $(this);
-	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-	$this.countTo(options);
-  }
-});
-	</script>
+  <script src="finances-master/js/jquery-3.3.1.min.js"></script>
+  <script src="finances-master/js/jquery-ui.js"></script>
+  <script src="finances-master/js/popper.min.js"></script>
+  <script src="finances-master/js/bootstrap.min.js"></script>
+  <script src="finances-master/js/owl.carousel.min.js"></script>
+  <script src="finances-master/js/jquery.countdown.min.js"></script>
+  <script src="finances-master/js/jquery.easing.1.3.js"></script>
+  <script src="finances-master/js/aos.js"></script>
+  <script src="finances-master/js/jquery.fancybox.min.js"></script>
+  <script src="finances-masterjs/jquery.sticky.js"></script>
+  <script src="finances-master/js/isotope.pkgd.min.js"></script>
+
+
+  <script src="finances-master/js/main.js"></script>
+
+
 </body>
 
 </html>

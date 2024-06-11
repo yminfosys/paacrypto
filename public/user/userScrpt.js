@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     var allredyloginuserID=$("#allredyloginuserID").val();
     if(allredyloginuserID){
-      getUserprofile(allredyloginuserID);
+     // getUserprofile(allredyloginuserID);
         
     }else{
         loginClick();
@@ -254,63 +254,7 @@ function logout(){
 
   }
 
-
-
-// function forgetpassword(){
-//     var loginEmail=$("#loginEmail").val().replace(/\s/g, '');
-//     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; 
-//     if (reg.test(loginEmail) == false) 
-//         {
-//             alert('Invalid Email Address');
-//             $("#loginEmail").focus();
-//             return 
-//         }
-//        var newPasw = prompt("Enter New Password");
-
-//        if(newPasw.length < 6){
-//             alert('Password Must be 6 to 18 charecter');
-//             return
-            
-//         } 
-//         $.post('/user/newPasswordRequest',{loginEmail:loginEmail,newPasw:newPasw},function(data){
-//             if(data){
-//                 alert("Your Request to set New Password is successfully send to Admin Our executive call you soon" )
-//             }else{
-//                 alert("User Id Not Match / Allredy has pending Request");
-//             }
-//         })
-
-
-    
-// }
-
-
-
-// var timerr
-// function searchdown(){
-//     clearTimeout(timerr);
-//   }
-//   function searchup(){
-//     clearTimeout(timerr);
-//     timerr=setTimeout(function(){
-//         var sponsorID=$("#sponsorID").val().trim();
-//         $("#SponsorName").val("")
-//         $("#SponsorRootID").val("")
-//         $.post('/user/checkSponsor',{sponsorID:sponsorID},function(data){
-//            if(data){
-//             //console.log(data)
-//             $("#SponsorName").val(data.userName);
-//             $("#SponsorRootID").val(data.rootID);
-
-//            }else{
-//             alert("Sponsor ID not Match");
-//            }
-//         });
-//     },1000);
-//   }
-
-
-  
+ 
 
   function loginProcess(){
     //protectButton('loginBtn');
@@ -393,7 +337,7 @@ function logout(){
               <br><span style="font-size:xx-small;" >Secn</span>\
             </div>\
             <div class="col" style="text-align: center;">\
-              <button type="button" class="btn btn-primary"><i class="fa fa-exchange" aria-hidden="true"></i></button>\
+              <button onclick="currencyConvert('+userID+')" type="button" class="btn btn-primary"><i class="fa fa-exchange" aria-hidden="true"></i></button>\
               <br><span style="font-size:xx-small;" >Convert</span>\
             </div>\
           </div>\
@@ -1056,6 +1000,41 @@ function multiCurrency(userID){
     })
 
     
+
+  }
+
+
+  /////////////Currency Convert//////////
+
+  function currencyConvert(userID){
+    $.post('/user/getUser',{userID:userID},function(user){
+      if(user.varyficatinStatus=="Verified"){
+        $("#topBacground").css({"display":"none"});
+          $("#view").html('<div class="card" style="height: 90vh; margin-top: 9vh; background-color: rgb(78, 83, 83); color: antiquewhite;">\
+          <div class="card-header">\
+            <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+            <p class="h3">Currency Converter</p>\
+          </div>\
+          <div id="sendAccountDetails" class="mb-3 p-3">\
+          <div class="mb-1 p-2">\
+            <label for="formFile" class="form-label">Currency To</label>\
+            <select id="senderMyCurrency" class="form-select" aria-label="Default select example">\
+              <option value="INR">Select Currency</option>\
+            </select>\
+            </div>\
+            <div class="mb-1 p-2">\
+            <label for="formFile" class="form-label">Currency To</label>\
+            <select id="senderMyCurrency" class="form-select" aria-label="Default select example">\
+              <option value="INR">Select Currency</option>\
+            </select>\
+            </div>\
+          </div>\
+          <div id="sendaccountBody" class="card-body">\
+        </div>');
+      }else{
+        alert("You Need to Your Verify Your Account ")
+      }
+    })
 
   }
 

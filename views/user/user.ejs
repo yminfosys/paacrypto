@@ -38,59 +38,54 @@
         </div> -->
       </nav>
     </header>
-    <!-- <div id="hgj"  class="container-fluid " style="margin-top: 10vh;">
-     
-    </div> -->
+  
 
     <div id="topBacground"  style="background-color: #041b2b;  height: 25vh; display:none"></div>
     
    <div  id="view"   class="container-fluid  ">
 
   
-
-
-    <!-- <div class="card" style="margin-top: 8vh;">
-      <div class="card-body">
-        <div  class="card-header text-center mb-3">
-          <span class="mb-2 p-2">To Sukanta Sardar</span>
-          <p style="font-size: 30px;">&#8377; 1000.00</p>
-          <span style="border-radius: 10px; border: 1px solid #041b2b; color: #d9e3db; background-color: #0c892b;" class="p-2 h6 ">Fast Transfer</span>
+    <div class="row p-2">
+      <div class="col">
+          <label class="">My Currency</label>
+          <select onchange="getMyBalance()" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected>INR</option>
+            <option value="1">BDT</option>
+          </select>
+          
+          <div class="mb-3">
+            <label class="">My Balance <br> Rs. 1000</label>
+            <label for="exampleInputText1" class="form-label">Enter Amount</label>
+            <input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
          </div>
-        <ul  class="list-group">
-          <li class="list-group-item mb-3 p-3 bg-success active" aria-current="true">
-             <span style="font-size: medium;" class="badge float-end">Success</span>
-            Status
-          </li>
-          <li class="list-group-item mb-2 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">17534546464234</span>
-            To Account No
-          </li>
-          <li class="list-group-item mb-2 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">30-05-2024 at 16:20</span>
-            Date
-          </li>
-          <li class="list-group-item mb-2 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">USDT Sale</span>
-            Referance
-          </li>
-          <li class="list-group-item mb-2 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">653009851567</span>
-            Transaction ID
-          </li>
-          <li class="list-group-item mb-3 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">&#8377; 5</span>
-            Fee
-          </li>
-          <li class="list-group-item mb-3 p-3">
-            <span style="font-size: medium; color: #000;" class="badge float-end">1735545454656</span>
-            From Account No
-          </li>
-          <li class="list-group-item mb-3 p-3">
-            <button onclick="" type="button" class="btn btn-success">Done</button>
-          </li>
-        </ul>
       </div>
-    </div> -->
+      <div class="col">
+        <label class="">Convert Currency</label>
+        <select style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">
+          <option selected>INR</option>
+          <option value="1">BDT</option>
+        </select>
+        <label class="">&#Pound; 40 <br><br>Fee : 5</label>
+      </div>
+      <div class="d-grid gap-2 mb-3">
+        <button type="button" class="btn btn-warning">Verify</button>
+      </div>
+     
+     <div class="mb-3">
+      <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>
+      <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">
+      </div>
+      <div class="d-grid gap-2">
+        <button onclick="ccgfdgfhto('+userID+')" class="btn btn-primary" type="button">Convert</button>
+      </div>
+      
+    </div>
+
+   <script>
+    function getMyBalance(){
+
+    }
+   </script>
 
 
    </div>
