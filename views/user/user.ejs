@@ -21,6 +21,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body style="background-color: rgb(50, 63, 63); color: antiquewhite;">
+    <script>
+
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+      // true for mobile device
+      //document.write("mobile device");
+      }else{
+      // false for not mobile device
+      //document.write("not mobile device");
+      alert("You need to Open it from Mobile Device");
+      
+      window.location.href = "/";
+      
+      }
+      </script>
 
      <!-- check alredy login -->
      <input  type="hidden" id="allredyloginuserID" value="<%=allredylogin%>">
