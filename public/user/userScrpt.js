@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     var allredyloginuserID=$("#allredyloginuserID").val();
     if(allredyloginuserID){
-     // getUserprofile(allredyloginuserID);
+      getUserprofile(allredyloginuserID);
         
     }else{
         loginClick();
