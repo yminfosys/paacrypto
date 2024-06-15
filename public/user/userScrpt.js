@@ -697,7 +697,7 @@ function multiCurrency(userID){
       '+currency[1]+' '+(Number(currency[2]) - Number(currency[4])).toFixed(2)+'\
       <input id="myCurrency" type="hidden" value="'+currency[0]+'">\
       <input id="myBalance" type="hidden" value="'+currency[2]+'">\
-      <input id="myUsdtBalance" type="hidden" value="'+currency[3]+'"></input>\
+      <input id="myUsdtBalance" type="hidden" value="'+(Number(currency[3]) - (Number(currency[5])))+'"></input>\
       </li>')
   }
 
@@ -727,11 +727,84 @@ function multiCurrency(userID){
         break;
 
         case "2":
-        $("#withdralBody").html('Please Wait')
+          $("#topBacground").css({"display":"none"});
+          $("#view").html('<div style="background-color: rgb(50, 63, 63); color: #f1de0b; margin-top: 10vh;" class="card">\
+          <div class="card-header">\
+            <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+           Bank Marchant List\
+          </div>\
+          <div class="card-body " style="height: 80vh; margin-bottom: 10vh; overflow-y: auto;">\
+            <ul  class="list-group">\
+              <li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                  <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                  <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp; \
+                  <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                  <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                  <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 min</span>\
+                  <span class="float-end">Bank Transfer</span>\
+                  <br><span style="font-size: medium; color: #fffbfb;">&#8377;  0.912</span>\
+                  <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">Buy</button></span>\
+                  <br> Limit <span style="color: #fffbfb;">&#8377;2000.00 - &#8377;100000.00</span>\
+                  <input type="hidden" id="userID" value="1">\
+                </p>\
+                <div id="marchantID" style="color: #fffbfb; display: none;" >\
+                  <span>Available Balance : &#8377; 120000</span>\
+                  <div class="row">\
+                    <label for="exampleInputText1" class="form-label">Amount</label>\
+                    <div class="col">\
+                      <input  type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
+                    </div>\
+                    <div class="col">\
+                      <button onclick="createMarchantOrder()" type="button" class="btn btn-sm btn-success float-end">Send</button>\
+                    </div>\
+                  </div>\
+                </div>\
+              </li>\
+            </ul>\
+          </div>\
+        </div>')
         break;
 
         case "3":
-        $("#withdralBody").html('Please Wait')
+          $("#topBacground").css({"display":"none"});
+          $("#view").html('<div style="background-color: rgb(50, 63, 63); color: #f1de0b; margin-top: 10vh;" class="card">\
+          <div class="card-header">\
+            <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+           Cash Marchant List &#x62f;&#x2e;&#x625;\
+          </div>\
+          <div class="card-body " style="height: 80vh; margin-bottom: 10vh; overflow-y: auto;">\
+            <ul  class="list-group">\
+              <li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                  <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                  <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp;\
+                  <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                  <br><span style="font-size: larger;"> Post : 700126 </span> &nbsp; \
+                  <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                  <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 min</span>\
+                  <span class="float-end">Cash Collections</span>\
+                  <br><span style="font-size: medium; color: #fffbfb;">&#8377;  0.912</span>\
+                  <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">Buy</button></span>\
+                  <br> Limit <span style="color: #fffbfb;">&#8377;2000.00 - &#8377;100000.00</span>\
+                  <input type="hidden" id="userID" value="1">\
+                </p>\
+                <div id="marchantID" style="color: #fffbfb; display: none;" >\
+                  <span>Available Balance : &#8377; 120000</span>\
+                  <div class="row">\
+                    <label for="exampleInputText1" class="form-label">Amount</label>\
+                    <div class="col">\
+                      <input  type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
+                    </div>\
+                    <div class="col">\
+                      <button onclick="createMarchantOrder()" type="button" class="btn btn-sm btn-success float-end">Send</button>\
+                    </div>\
+                  </div>\
+                </div>\
+              </li>\
+            </ul>\
+          </div>\
+        </div>')
         
         break;
     
@@ -749,7 +822,6 @@ function multiCurrency(userID){
     var UsdtWithdrawl=$("#UsdtWithdrawl").val().trim();
     var usdtTokenAddress=$("#usdtTokenAddress").val().trim();
     var txnPin=$("#txnPin").val();
-    if(Number(myUsdtBalance) >= Number(UsdtWithdrawl) && Number(UsdtWithdrawl)!=0){
 
       if (usdtTokenAddress.length < 10 ) 
         {
@@ -758,12 +830,34 @@ function multiCurrency(userID){
             return 
         }
 
+      if (Number(myUsdtBalance) <= Number(UsdtWithdrawl)) 
+      {
+       
+          alert('Worng USDT Amount');
+          $("#UsdtWithdrawl").focus();
+          return 
+        
+        
+      }
+    
+
+      if( Number(UsdtWithdrawl) == 0){
+        alert('Worng USDT Amount');
+        $("#UsdtWithdrawl").focus();
+        return 
+      }
+
     if (txnPin.length == 0) 
       {
           alert('Enter T-Pin');
           $("#txnPin").focus();
           return 
       }
+
+
+
+      // alert("Worng USDT Amount");
+      // $("#UsdtWithdrawl").focus();
 
      $.post('/user/withdrawlByCrypto',{
       userID:userID,
@@ -787,10 +881,7 @@ function multiCurrency(userID){
       }
      
       });
-    }else{
-      alert("Worng USDT Amount");
-      $("#UsdtWithdrawl").focus();
-    }
+    
     
 
   }
@@ -1010,26 +1101,38 @@ function multiCurrency(userID){
     $.post('/user/getUser',{userID:userID},function(user){
       if(user.varyficatinStatus=="Verified"){
         $("#topBacground").css({"display":"none"});
-          $("#view").html('<div class="card" style="height: 90vh; margin-top: 9vh; background-color: rgb(78, 83, 83); color: antiquewhite;">\
-          <div class="card-header">\
-            <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
-            <p class="h3">Currency Converter</p>\
+          $("#view").html('<div style="margin-top: 10vh;" class="row p-2">\
+          <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+          <div class="col">\
+              <label class="">My Currency</label>\
+              <select onchange="getMyBalance()" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">\
+                <option selected>INR</option>\
+                <option value="1">BDT</option>\
+              </select>\
+              <div class="mb-3">\
+                <label class="">My Balance <br> Rs. 1000</label>\
+                <label for="exampleInputText1" class="form-label">Enter Amount</label>\
+                <input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
+             </div>\
           </div>\
-          <div id="sendAccountDetails" class="mb-3 p-3">\
-          <div class="mb-1 p-2">\
-            <label for="formFile" class="form-label">Currency To</label>\
-            <select id="senderMyCurrency" class="form-select" aria-label="Default select example">\
-              <option value="INR">Select Currency</option>\
+          <div class="col">\
+            <label class="">Convert Currency</label>\
+            <select style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">\
+              <option selected>INR</option>\
+              <option value="1">BDT</option>\
             </select>\
-            </div>\
-            <div class="mb-1 p-2">\
-            <label for="formFile" class="form-label">Currency To</label>\
-            <select id="senderMyCurrency" class="form-select" aria-label="Default select example">\
-              <option value="INR">Select Currency</option>\
-            </select>\
-            </div>\
+            <label class="">&#Pound; 40 <br><br>Fee : 5</label>\
           </div>\
-          <div id="sendaccountBody" class="card-body">\
+          <div class="d-grid gap-2 mb-3">\
+            <button type="button" class="btn btn-warning">Verify</button>\
+          </div>\
+         <div class="mb-3">\
+          <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
+          <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
+          </div>\
+          <div class="d-grid gap-2">\
+            <button onclick="ccgfdgfhto('+userID+')" class="btn btn-primary" type="button">Convert</button>\
+          </div>\
         </div>');
       }else{
         alert("You Need to Your Verify Your Account ")
