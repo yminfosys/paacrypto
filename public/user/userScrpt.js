@@ -334,7 +334,7 @@ function logout(){
             </div>\
             <div class="col" style="text-align: center;">\
               <button type="button" class="btn btn-success"><i class="fa fa-qrcode" aria-hidden="true"></i></button>\
-              <br><span style="font-size:xx-small;" >Secn</span>\
+              <br><span style="font-size:xx-small;" >Scan</span>\
             </div>\
             <div class="col" style="text-align: center;">\
               <button onclick="currencyConvert('+userID+')" type="button" class="btn btn-primary"><i class="fa fa-exchange" aria-hidden="true"></i></button>\
@@ -1321,7 +1321,29 @@ function multiCurrency(userID){
 
 
   function footer(userID){
+   // alert(userID)
     $("#footnav").css({"display":"block"});
+    $("#footerBody").html('<div onclick=" getUserprofile('+userID+')" style="text-align: center; font-size: small;" >\
+      <i style="font-size: 30px;" class="fa fa-home" aria-hidden="true"></i>\
+      <br>Home\
+    </div>\
+    <div style="text-align: center; font-size: small;" >\
+      <i style="font-size: 30px;" class="fa fa-file-text" aria-hidden="true"></i>\
+      <br>Transection\
+    </div>\
+    <div style="text-align: center; font-size: small;" >\
+      <i style="font-size: 30px;" class="fa fa-btc" aria-hidden="true"></i>\
+      <br>Currency\
+    </div>\
+    <div style="text-align: center; font-size: small;" >\
+      <i style="font-size: 30px;" class="fa fa-cog" aria-hidden="true"></i>\
+      <br>Setting\
+    </div>\
+    <div style="text-align: center; font-size: small;" >\
+      <i style="font-size: 30px;" class="fa fa-life-ring" aria-hidden="true"></i>\
+      <br>Help\
+    </div>');
+
     
     
   }
