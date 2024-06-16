@@ -822,6 +822,20 @@ router.post('/newPasswordRequest', async function(req, res, next) {
   }
 })
 
+
+router.post('/becomemerchant', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.user.findOne({userID:req.body.userID});
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+})
+
 // var senderAmount=req.body.senderAmount;
 // var senderUsdt=Number(senderAmount) / Number(sendusdtrate.usdtRate);
 // var senderCharges=req.body.charge

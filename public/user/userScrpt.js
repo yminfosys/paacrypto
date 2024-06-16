@@ -468,6 +468,8 @@ function multiCurrency(userID){
         </div>\
         <ul class="list-group mt-3">\
         <li class="list-group-item" onclick="setResetTpin('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Set / Re-set T-Pin</li>\
+        <li class="list-group-item" onclick="merchantInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Become Marchant</li>\
+        <li class="list-group-item" onclick="grievanceInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Grievance</li>\
         <li class="list-group-item" onclick="logout()"  data-bs-dismiss="offcanvas" aria-label="Close">Logout</li>\
         </ul>\
         </div>')
@@ -1319,6 +1321,34 @@ function multiCurrency(userID){
    
   }
 
+
+  function merchantInit(userID){
+    $("#topBacground").css({"display":"none"});
+    $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+    <div class="card-header">\
+      <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+     <h2>Become A Merchant</h2> \
+    </div>\
+  <div class="card-body">\
+    <h5 class="card-title">Merchant Criteria</h5>\
+    <p class="card-text">\
+      1. <br>\
+      2. <br>\
+      3. <br>\
+      4. <br>\
+      5. <br>\
+    </p>\
+    <button onclick="becomemerchant('+userID+')" type="button" class="btn btn-secondary">Become a merchant</button>\
+  </div>\
+</div>\
+')
+  }
+
+  function becomemerchant(userID){
+    $.post('/user/becomemerchant',{userID:userID},function(data){
+      console.log(data);
+    })
+  }
 
   function footer(userID){
    // alert(userID)
