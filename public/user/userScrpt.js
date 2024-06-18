@@ -468,7 +468,7 @@ function multiCurrency(userID){
         </div>\
         <ul class="list-group mt-3">\
         <li class="list-group-item" onclick="setResetTpin('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Set / Re-set T-Pin</li>\
-        <li class="list-group-item" onclick="merchantInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Become Marchant</li>\
+        <li class="list-group-item" onclick="merchantInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Marchant</li>\
         <li class="list-group-item" onclick="grievanceInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Grievance</li>\
         <li class="list-group-item" onclick="logout()"  data-bs-dismiss="offcanvas" aria-label="Close">Logout</li>\
         </ul>\
@@ -1320,33 +1320,178 @@ function multiCurrency(userID){
     }
    
   }
+  function onlineOffline(userID){
+    var  onoff=0;
+    var aa=$("#onoff").prop('checked')
+      
+      if(aa){
+        //////operation for true 
+       //console.log("ture  onlone");
+        onoff=1;
+        $("#onOffText").html('Online');
+      }else{
+       // console.log("false  offline");
+        onoff=0;
+        $("#onOffText").html('Offline');
+        
+      }
+    $.post('/user/onlineOfflinemMerchant',{userID:userID, onoff: onoff},function(data){
 
+    });
+  }
+  
 
   function merchantInit(userID){
     $("#topBacground").css({"display":"none"});
-    $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
-    <div class="card-header">\
-      <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
-     <h2>Become A Merchant</h2> \
+    $.post('/user/getmerchant',{userID:userID},function(data){
+     if(data){
+        console.log(data)
+        if(data.merchantStatus=="Accept"){
+          $("#view").html('<div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; ">\
+          <div class="card-header">\
+            <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+           <h3>Merchant</h3> \
+           <p onclick="oofon()">Sukanta Sardar <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span><br>Bank Transfer</p>\
+           <div style="margin-top: -25px;" class="form-check form-switch">\
+            <span id="onOffText" style="margin-left: 24vh;">Online</span>\
+            <input onclick ="onlineOffline('+userID+')" style="" class="form-check-input float-end" type="checkbox" role="switch" id="onoff">\
+          </div>\
+          </div>\
+        <div class="card-body">\
+          <div class="row" style="height: 30vh; overflow-y: auto; font-size: x-small;">\
+              <div class="col">\
+                 <div class="mb-3">\
+                  <label  class="form-label">Total Amount</label>\
+                  <input type="text" class="form-control" id="mrchTotalAmt" value="1000">\
+                 </div>\
+                 <div class="mb-3">\
+                  <label  class="form-label">USDT Rate</label>\
+                  <input type="text" class="form-control" id="mrchTotalAmt" value="89.01">\
+                 </div>\
+                 <div class="mb-3">\
+                  <label  class="form-label">Time 15 min</label>\
+                  <select class="form-select">\
+                      <option value="15" selected>Select Option</option>\
+                      <option value="15">15 min</option>\
+                      <option value="30">30 min</option>\
+                      <option value="60">60 min</option>\
+                      <option value="120">120 min</option>\
+                      <option value="180">180 min</option>\
+                      <option value="360">360 min</option>\
+                      <option value="1440">24 hr</option>\
+                    </select>\
+                 </div>\
+              </div>\
+              <div class="col">\
+                  <div class="mb-3">\
+                      <label  class="form-label">Limit</label>\
+                      <input type="text" class="form-control" id="mrchTotalAmt" value="1000"><br>\
+                      <span style="text-align: center; font-size: small;">To</span>\
+                      <input type="text" class="form-control" id="mrchTotalAmt" value="1000">\
+                  </div>\
+                  <div class="mb-3">\
+                      <label  class="form-label">Pay Through</label>\
+                      <select class="form-select">\
+                          <option value="Bank Transfer">Bank Transfer</option>\
+                          <option value="Cash Collections">Cash Collections</option>\
+                        </select>\
+                     </div>\
+              </div>\
+              <div class="d-grid gap-2">\
+                  <button class="btn btn-primary btn-xs" type="button">Save Changes</button>\
+              </div>\
+            </div>\
+          <div class="row">\
+              <div class="col">\
+                  <div class="card-header">\
+                     <h4>Merchant Order</h4>\
+                     <select class="form-select">\
+                      <option value="Bank Transfer">Pending</option>\
+                      <option value="Cash Collections">Complete</option>\
+                    </select>\
+                    </div>\
+                  <div class="card-body" style="height: 25vh; overflow-y: auto;">\
+                      <ul  class="list-group">\
+                          <li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
+                            <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                              <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                              <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp; \
+                              <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                              <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                              <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 min</span>\
+                              <span class="float-end">Bank Transfer</span>\
+                              <br><span style="font-size: medium; color: #fffbfb;">&#8377;  0.912</span>\
+                              <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
+                              <br> Payble Amount <span style="color: #fffbfb;">&#8377;2000.00</span>\
+                              <input type="hidden" id="userID" value="1">\
+                            </p>\
+                            <div id="marchantID" style="color: #f5efef; display: non;" >\
+                              <p>Name: Johon Dowe<br>Account No: 12235426565476765<br>IFSC: DFGH1234098<br>Branch: Kolkata<br>Bank Name: BOB</p>\
+                            </div>\
+                          </li>\
+                        </ul>\
+                  </div>\
+              </div>\
+          </div>\
+        </div>\
+      </div> ');
+
+              if(data.onlineOffline==0){
+                $("#onoff").prop('checked', false);
+                $("#onOffText").html('Offline');
+              }else{
+                $("#onoff").prop('checked', true);
+                $("#onOffText").html('Online');
+              }
+
+            
+
+
+        }else{
+          //alert("Your are under review or cryteria not match");
+          $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+                <div class="card-header">\
+                  <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+                <h2>Merchant Alert</h2> \
+                </div>\
+              <div class="card-body">\
+                <p class="card-text">\
+                Your are under review or cryteria not match\
+                </p>\
+                </div>\
+            </div>')
+        }
+
+     }else{
+      $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+      <div class="card-header">\
+        <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+       <h2>Become A Merchant</h2> \
+      </div>\
+    <div class="card-body">\
+      <h5 class="card-title">Merchant Criteria</h5>\
+      <p class="card-text">\
+        1. <br>\
+        2. <br>\
+        3. <br>\
+        4. <br>\
+        5. <br>\
+      </p>\
+      <button id="merchantBecome" onclick="becomemerchant('+userID+')" type="button" class="btn btn-secondary">Become a merchant</button>\
     </div>\
-  <div class="card-body">\
-    <h5 class="card-title">Merchant Criteria</h5>\
-    <p class="card-text">\
-      1. <br>\
-      2. <br>\
-      3. <br>\
-      4. <br>\
-      5. <br>\
-    </p>\
-    <button onclick="becomemerchant('+userID+')" type="button" class="btn btn-secondary">Become a merchant</button>\
   </div>\
-</div>\
-')
+  ')
+     }
+    })
+   
+    
   }
 
   function becomemerchant(userID){
+    $("#merchantBecome").attr('disabled','disabled');
     $.post('/user/becomemerchant',{userID:userID},function(data){
       console.log(data);
+      merchantInit(userID);
     })
   }
 

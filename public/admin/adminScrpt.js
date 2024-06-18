@@ -124,6 +124,38 @@ function acceptWithdrawlRequest(trasactionID){
     });
 }
 
+
+
+
+
+function getmerchantRequest(){
+    $.post('/admin/getmerchantRequest',{},function(data){
+        console.log(data)
+         $("#merchantRequestList").html('')
+         data.forEach(val => {
+             $("#merchantRequestList").append(' <li class="list-group-item">\
+             <P class="">Merchant Name: '+val.merchantName+' <br>Mobile: '+val.countryCode+'-'+val.mobile+'<br> Merchant ID:'+val.merchantuserID+'</P>\
+             <P class="">Merchant Type: '+val.merchantStatus+'<br>Post Code : '+val.postCode+'<br>Date: '+val.date+'</P>\
+             <button onclick="acceptMarchantRequest(\''+val.merchantuserID+'\')" type="button" class="btn btn-success btn-sm">Accept</button>\
+             <button onclick="rejectmerchantRequest(\''+val.merchantuserID+'\')" type="button" class="btn btn-danger btn-sm">Reject</button>\
+           </li>');
+         });
+         
+     });
+}
+
+function acceptMarchantRequest(merchantuserID){
+    $.post('/admin/acceptmerchantRequest',{merchantuserID:merchantuserID},function(data){
+        getmerchantRequest();
+    });
+}
+
+function rejectmerchantRequest(merchantuserID){
+    $.post('/admin/rejectmerchantRequest',{merchantuserID:merchantuserID},function(data){
+        getmerchantRequest();
+    });
+}
+
 function getverificationRequest(){
     $.post('/admin/getverificationRequest',{},function(data){
        
@@ -184,6 +216,7 @@ function getCountryList(){
         });
         
 }
+
 
 
 function getCurrencyList(){

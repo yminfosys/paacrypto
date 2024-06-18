@@ -30,20 +30,24 @@ var usermodul = mongoose.model('cashwalletusers', userSchema);
 
 const merchantSchema = new mongoose.Schema({ 
     merchantName:String,
+    merchantNickname:String,
     merchantuserID:Number,
     feedback:String,
-    time:String,
+    OrderTime:String,
     limitFrom:String,
     limitTo:String,
-    merchantType:String,
+    totalFund:String,
     postCode:String,
+    merchantType:String,
     merchantStatus:String,
+    onlineOffline:Number,
+    usdtRate:String,
     mobile:String,
     country:String,
     countryCode:String,
     currency:String,
     currencySymbol:String,
-    regdate: { type: Date, default: Date.now },
+    date: { type: Date, default: Date.now },
 });
 var merchantmodul = mongoose.model('cashwalletmerchants', merchantSchema);
 
@@ -53,19 +57,14 @@ const merchantorderSchema = new mongoose.Schema({
     merchantName:String,
     merchantuserID:Number,
     OrderID:String,
-    OrderTime:String,
-    limitFrom:String,
-    limitTo:String,
     merchantType:String,
     postCode:String,
     merchantStatus:String,
-
-    mobile:String,
-    country:String,
-    countryCode:String,
+    orderAmount:String,
+    orderPrice:String,
     currency:String,
     currencySymbol:String,
-    regdate: { type: Date, default: Date.now },
+    date: { type: Date, default: Date.now }
 });
 var merchantordermodul = mongoose.model('cashwalletmerchantorders', merchantorderSchema);
 
@@ -231,5 +230,7 @@ module.exports={
     usdtrate:usdtratemodul,
     paacryptoeaining:paacryptoeainingmodul,
     charges:chargesmodul,
-    forgetPassword:forgetPasswordmodul
+    forgetPassword:forgetPasswordmodul,
+    merchant:merchantmodul,
+    merchantorder:merchantordermodul
 }

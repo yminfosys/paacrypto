@@ -291,6 +291,56 @@ router.post('/acceptWithdrawlRequest', async function(req, res, next) {
 
 
 
+router.post('/getmerchantRequest', async function(req, res, next) {
+  try {
+  await dbCon.connectDB()
+  const marchant =  await db.merchant.find({merchantStatus:"Request"})
+    await dbCon.closeDB();
+    res.json(marchant);
+  
+  
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+router.post('/acceptmerchantRequest', async function(req, res, next) {
+  try {
+  await dbCon.connectDB()
+  const marchant =  await db.merchant.findOneAndUpdate({merchantuserID:req.body.merchantuserID},{
+    $set:{merchantStatus:"Accept"}
+  })
+    await dbCon.closeDB();
+    res.json(marchant);
+  
+  
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+router.post('/rejectmerchantRequest', async function(req, res, next) {
+  try {
+  await dbCon.connectDB()
+  const marchant =  await db.merchant.deleteMany({merchantuserID:req.body.merchantuserID})
+    await dbCon.closeDB();
+    res.json(marchant);
+  
+  
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+
+
 
 router.post('/getverificationRequest', async function(req, res, next) {
   try {
@@ -381,6 +431,7 @@ router.post('/getCurrencyList', async function(req, res, next) {
 }
 
 })
+
 
 
 

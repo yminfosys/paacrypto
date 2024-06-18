@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Currency Bank Account</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #0044cc;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+header .logo h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #0044cc;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.currency-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.currency {
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 3px;
+    flex: 1 1 calc(25% - 20px);
+    text-align: center;
+}
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <h1>BankXYZ</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#currencies">Currencies</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="home" class="section">
+            <h2>Welcome to BankXYZ Multi-Currency Account</h2>
+            <p>Manage your money in multiple currencies with ease and flexibility.</p>
+        </section>
+        <section id="features" class="section">
+            <h2>Features</h2>
+            <ul>
+                <li>Hold balances in multiple currencies</li>
+                <li>Easy currency exchange</li>
+                <li>Global reach and accessibility</li>
+                <li>Low transfer fees</li>
+            </ul>
+        </section>
+        <section id="currencies" class="section">
+            <h2>Supported Currencies</h2>
+            <p>We support a wide range of currencies including USD, EUR, GBP, JPY, and more.</p>
+            <div class="currency-list">
+                <div class="currency">USD - United States Dollar</div>
+                <div class="currency">EUR - Euro</div>
+                <div class="currency">GBP - British Pound</div>
+                <div class="currency">JPY - Japanese Yen</div>
+                <!-- Add more currencies as needed -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 BankXYZ. All rights reserved.</p>
+        <p><a href="#contact">Contact Us</a></p>
+    </footer>
+</body>
+</html>
+
+

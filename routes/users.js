@@ -73,12 +73,9 @@ var upload = multer({
 
 /* GET users listing. */
 
-router.post('/test', async function(req, res, next) {
+router.get('/test', async function(req, res, next) {
   try {
-    await dbCon.connectDB();
-
-
-    await dbCon.closeDB();
+    res.render('user/test')
   }catch (error) {
     console.log(error);
     return error;
@@ -823,11 +820,11 @@ router.post('/newPasswordRequest', async function(req, res, next) {
 })
 
 
-router.post('/becomemerchant', async function(req, res, next) {
+
+router.post('/getmerchant', async function(req, res, next) {
   try {
   await dbCon.connectDB();
-  const user= await db.user.findOne({userID:req.body.userID});
-  
+  const user= await db.merchant.findOne({merchantuserID:req.body.userID});
   await dbCon.closeDB();
   res.json(user)
 } catch (error) {
@@ -835,11 +832,58 @@ router.post('/becomemerchant', async function(req, res, next) {
   return error;
 }
 
-})
+});
 
-// var senderAmount=req.body.senderAmount;
-// var senderUsdt=Number(senderAmount) / Number(sendusdtrate.usdtRate);
-// var senderCharges=req.body.charge
+
+router.post('/becomemerchant', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.user.findOne({userID:req.body.userID});
+  const verify= await db.verification.findOne({userID:req.body.userID});
+  const merchant= await db.merchant({
+    merchantName:user.userName,
+    merchantNickname:user.userName,
+    merchantuserID:user.userID,
+    feedback:100,
+    OrderTime:15,
+    limitFrom:100,
+    limitTo:100000,
+    totalFund:100000,
+    merchantType:"Bank Tranfer",
+    onlineOffline:0,
+    postCode:verify.postCode,
+    merchantStatus:"Request",
+    usdtRate:"0.00",
+    mobile:user.mobile,
+    countryCode:user.countryCode,
+    currency:user.currency,
+    currencySymbol:user.currencySymbol
+  });
+  await merchant.save();
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+router.post('/onlineOfflinemMerchant', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.merchant.findOneAndUpdate({merchantuserID:req.body.userID},{$set:{onlineOffline:req.body.onoff}});
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
 
 
 module.exports = router;
