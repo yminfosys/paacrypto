@@ -853,7 +853,7 @@ router.post('/becomemerchant', async function(req, res, next) {
     onlineOffline:0,
     postCode:verify.postCode,
     merchantStatus:"Request",
-    usdtRate:"0.00",
+    usdtRate:"88.00",
     mobile:user.mobile,
     countryCode:user.countryCode,
     currency:user.currency,
@@ -882,6 +882,60 @@ router.post('/onlineOfflinemMerchant', async function(req, res, next) {
 }
 
 });
+
+router.post('/mrchSavechanges', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.merchant.findOneAndUpdate({merchantuserID:req.body.userID},{$set:{
+    totalFund:req.body.mrchTotalAmt,
+      usdtRate:req.body.mrchUsdtRate,
+      OrderTime:req.body.mrchOrderTime,
+      limitFrom:req.body.mrchLimitFrom,
+      limitTo:req.body.mrchLimitTo,
+      merchantType:req.body.mrchType
+  }});
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+router.post('/editmerchantNickname', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.merchant.findOneAndUpdate({merchantuserID:req.body.userID},{$set:{
+    merchantNickname:req.body.merchantNickName
+  }});
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+router.post('/getBankMerchant', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user= await db.merchant.find({onlineOffline:1, merchantType: 'Bank Transfer'});
+  await dbCon.closeDB();
+  res.json(user)
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+//db.cashwalletusers.findOneAndUpdate({mobile:'8509239522'},{$set:{userName:'Sukanta Sardar'}})
+
+//
 
 
 

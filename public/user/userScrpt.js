@@ -729,29 +729,40 @@ function multiCurrency(userID){
         break;
 
         case "2":
+
           $("#topBacground").css({"display":"none"});
+
           $("#view").html('<div style="background-color: rgb(50, 63, 63); color: #f1de0b; margin-top: 10vh;" class="card">\
           <div class="card-header">\
             <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
            Bank Marchant List\
           </div>\
           <div class="card-body " style="height: 80vh; margin-bottom: 10vh; overflow-y: auto;">\
-            <ul  class="list-group">\
-              <li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+            <ul id="bankMerchantList" class="list-group">\
+            </ul>\
+          </div>\
+        </div>')
+
+        $.post('/user/getBankMerchant',{},function(data){
+          console.log(data)
+          if(data.length >0){
+            data.forEach(val => {
+              var usdtCurrencyRate=0;
+              $("#bankMerchantList").append('<li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
                 <p style="font-size: small; color: #797575 !important;" class="text-dark">\
                   <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
-                  <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp; \
+                  <span style="font-size: larger; color: #fffbfb;"> '+val.merchantNickname+' </span> &nbsp; \
                   <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
                   <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
-                  <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 min</span>\
+                  <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.OrderTime+' min</span>\
                   <span class="float-end">Bank Transfer</span>\
-                  <br><span style="font-size: medium; color: #fffbfb;">&#8377;  0.912</span>\
+                  <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  0.912</span>\
                   <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">Buy</button></span>\
-                  <br> Limit <span style="color: #fffbfb;">&#8377;2000.00 - &#8377;100000.00</span>\
+                  <br> Limit <span style="color: #fffbfb;">'+val.currencySymbol+''+val.limitFrom+' - '+val.currencySymbol+''+val.limitTo+'</span>\
                   <input type="hidden" id="userID" value="1">\
                 </p>\
                 <div id="marchantID" style="color: #fffbfb; display: none;" >\
-                  <span>Available Balance : &#8377; 120000</span>\
+                  <span>Available Balance : '+val.currencySymbol+' 120000</span>\
                   <div class="row">\
                     <label for="exampleInputText1" class="form-label">Amount</label>\
                     <div class="col">\
@@ -762,10 +773,21 @@ function multiCurrency(userID){
                     </div>\
                   </div>\
                 </div>\
-              </li>\
-            </ul>\
-          </div>\
-        </div>')
+              </li>')
+            });
+
+          }else{
+            $("#bankMerchantList").append('<li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                  No Merchant Found\
+                </p>\
+                </li>')
+          }
+          
+         
+        });
+
+
         break;
 
         case "3":
@@ -1351,7 +1373,7 @@ function multiCurrency(userID){
           <div class="card-header">\
             <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
            <h3>Merchant</h3> \
-           <p onclick="oofon()">Sukanta Sardar <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span><br>Bank Transfer</p>\
+           <p onclick="oofon()">'+data.merchantNickname+' <span onclick ="editmerchantNickname('+userID+')" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span><br>'+data.merchantType+'</p>\
            <div style="margin-top: -25px;" class="form-check form-switch">\
             <span id="onOffText" style="margin-left: 24vh;">Online</span>\
             <input onclick ="onlineOffline('+userID+')" style="" class="form-check-input float-end" type="checkbox" role="switch" id="onoff">\
@@ -1362,15 +1384,15 @@ function multiCurrency(userID){
               <div class="col">\
                  <div class="mb-3">\
                   <label  class="form-label">Total Amount</label>\
-                  <input type="text" class="form-control" id="mrchTotalAmt" value="1000">\
+                  <input type="text" class="form-control" id="mrchTotalAmt" value="'+data.totalFund+'">\
                  </div>\
                  <div class="mb-3">\
                   <label  class="form-label">USDT Rate</label>\
-                  <input type="text" class="form-control" id="mrchTotalAmt" value="89.01">\
+                  <input type="text" class="form-control" id="mrchUsdtRate" value="'+data.usdtRate+'">\
                  </div>\
                  <div class="mb-3">\
-                  <label  class="form-label">Time 15 min</label>\
-                  <select class="form-select">\
+                  <label  class="form-label">Time '+data.OrderTime+' min</label>\
+                  <select class="form-select" id="mrchOrderTime">\
                       <option value="15" selected>Select Option</option>\
                       <option value="15">15 min</option>\
                       <option value="30">30 min</option>\
@@ -1385,20 +1407,20 @@ function multiCurrency(userID){
               <div class="col">\
                   <div class="mb-3">\
                       <label  class="form-label">Limit</label>\
-                      <input type="text" class="form-control" id="mrchTotalAmt" value="1000"><br>\
+                      <input type="text" class="form-control" id="mrchLimitFrom" value="'+data.limitFrom+'"><br>\
                       <span style="text-align: center; font-size: small;">To</span>\
-                      <input type="text" class="form-control" id="mrchTotalAmt" value="1000">\
+                      <input type="text" class="form-control" id="mrchLimitTo" value="'+data.limitTo+'">\
                   </div>\
                   <div class="mb-3">\
                       <label  class="form-label">Pay Through</label>\
-                      <select class="form-select">\
+                      <select class="form-select" id="mrchType">\
                           <option value="Bank Transfer">Bank Transfer</option>\
                           <option value="Cash Collections">Cash Collections</option>\
                         </select>\
                      </div>\
               </div>\
               <div class="d-grid gap-2">\
-                  <button class="btn btn-primary btn-xs" type="button">Save Changes</button>\
+                  <button onclick ="mrchSavechanges('+userID+')" class="btn btn-primary btn-xs" type="button">Save Changes</button>\
               </div>\
             </div>\
           <div class="row">\
@@ -1411,7 +1433,7 @@ function multiCurrency(userID){
                     </select>\
                     </div>\
                   <div class="card-body" style="height: 25vh; overflow-y: auto;">\
-                      <ul  class="list-group">\
+                      <ul id="mrchOrderlist" class="list-group">\
                           <li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
                             <p style="font-size: small; color: #797575 !important;" class="text-dark">\
                               <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
@@ -1443,7 +1465,7 @@ function multiCurrency(userID){
                 $("#onoff").prop('checked', true);
                 $("#onOffText").html('Online');
               }
-
+            $("#mrchOrderlist").html('')
             
 
 
@@ -1494,6 +1516,38 @@ function multiCurrency(userID){
       merchantInit(userID);
     })
   }
+
+  function mrchSavechanges(userID){
+    var mrchTotalAmt =$("#mrchTotalAmt").val().trim();
+    var mrchUsdtRate =$("#mrchUsdtRate").val().trim();
+    var mrchOrderTime =$("#mrchOrderTime").val().trim();
+    var mrchLimitFrom =$("#mrchLimitFrom").val().trim();
+    var mrchLimitTo =$("#mrchLimitTo").val().trim();
+    var mrchType =$("#mrchType").val().trim();
+    $.post('/user/mrchSavechanges',{
+      userID:userID,
+      mrchTotalAmt:mrchTotalAmt,
+      mrchUsdtRate:mrchUsdtRate,
+      mrchOrderTime:mrchOrderTime,
+      mrchLimitFrom:mrchLimitFrom,
+      mrchLimitTo:mrchLimitTo,
+      mrchType:mrchType
+    },function(data){
+      merchantInit(userID);
+    });
+    
+   
+  }
+
+  function editmerchantNickname(userID){
+    var newPasw = prompt("Enter Nick Name");
+    $.post('/user/editmerchantNickname',{
+      userID:userID,
+      merchantNickName:newPasw
+    },function(data){
+      merchantInit(userID);
+    });
+  } 
 
   function footer(userID){
    // alert(userID)

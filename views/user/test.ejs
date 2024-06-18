@@ -60,6 +60,37 @@
       }
     }
 
+    function mrchSavechanges(userID){
+      var mrchTotalAmt =$("#mrchTotalAmt").val().trim();
+      var mrchUsdtRate =$("#mrchUsdtRate").val().trim();
+      var mrchOrderTime =$("#mrchOrderTime").val().trim();
+      var mrchLimitFrom =$("#mrchLimitFrom").val().trim();
+      var mrchLimitTo =$("#mrchLimitTo").val().trim();
+      var mrchType =$("#mrchType").val().trim();
+      $.post('/user/onlineOfflinemMerchant',{
+        userID:userID,
+        mrchTotalAmt:mrchTotalAmt,
+        mrchUsdtRate:mrchUsdtRate,
+        mrchOrderTime:mrchOrderTime,
+        mrchLimitFrom:mrchLimitFrom,
+        mrchLimitTo:mrchLimitTo,
+        mrchType:mrchType
+      },function(data){
+
+      });
+      
+    }
+
+    function editMerchantNickname(userID){
+      var mrchTotalAmt =$("#mrchTotalAmt").val().trim();
+      $.post('/user/onlineOfflinemMerchant',{
+        userID:userID,
+        mrchTotalAmt:mrchTotalAmt
+      },function(data){
+
+      });
+    }
+
     
   </script>
   <style>
