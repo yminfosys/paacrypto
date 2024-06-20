@@ -161,6 +161,7 @@ function getverificationRequest(){
        
         $("#accountVerification").html('')
         data.forEach(val => {
+            console.log(val.videoRecording)
             $("#accountVerification").append(' <li class="list-group-item">\
             <P class="">Name: '+val.userName+' <br>UserID: '+val.userID+' <br>Gov ID: '+val.idProof+' [ '+val.idNo+' ]<br>Address : '+val.address1+','+val.address2+', pin- '+val.postCode+', '+val.city+', '+val.country+', <br>Date: '+dateFormat(new Date(val.date),"dt")+'</P>\
             <img onclick="imageZoom(1'+val.userID+')" id="1'+val.userID+'" style="width: 20%; height: 20%;" class=" img-thumbnail float-end " src="'+val.selfyPicture+'" alt="scrn">\

@@ -81,14 +81,14 @@
       
     }
 
-    function editMerchantNickname(userID){
-      var mrchTotalAmt =$("#mrchTotalAmt").val().trim();
-      $.post('/user/onlineOfflinemMerchant',{
-        userID:userID,
-        mrchTotalAmt:mrchTotalAmt
-      },function(data){
-
-      });
+    function editmerchantNickname(userID){
+        var newPasw = prompt("Enter Nick Name");
+        $.post('/user/editmerchantNickname',{
+          userID:userID,
+          merchantNickName:newPasw
+        },function(data){
+          merchantInit(userID);
+        });
     }
 
     
