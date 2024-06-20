@@ -162,6 +162,12 @@ function getverificationRequest(){
         $("#accountVerification").html('')
         data.forEach(val => {
             console.log(val.videoRecording)
+            var video=val.videoRecording
+             let position = video.search("https");
+             if(Number(position) < 0){
+                video='https://'+video+''
+             }
+            
             $("#accountVerification").append(' <li class="list-group-item">\
             <P class="">Name: '+val.userName+' <br>UserID: '+val.userID+' <br>Gov ID: '+val.idProof+' [ '+val.idNo+' ]<br>Address : '+val.address1+','+val.address2+', pin- '+val.postCode+', '+val.city+', '+val.country+', <br>Date: '+dateFormat(new Date(val.date),"dt")+'</P>\
             <img onclick="imageZoom(1'+val.userID+')" id="1'+val.userID+'" style="width: 20%; height: 20%;" class=" img-thumbnail float-end " src="'+val.selfyPicture+'" alt="scrn">\
@@ -170,7 +176,7 @@ function getverificationRequest(){
             <button type="button" class="btn btn-danger btn-sm ">Reject</button>\
             <div class="">\
                <br><video class="float-end" width="160" height="120" controls>\
-                 <source src="'+val.videoRecording+'" type="video/mp4">\
+                 <source src="'+video+'" type="video/mp4">\
                </video>\
             </div>\
           </li>')
