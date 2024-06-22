@@ -923,8 +923,9 @@ router.post('/getBankMerchant', async function(req, res, next) {
   try {
   await dbCon.connectDB();
   const user= await db.merchant.find({onlineOffline:1, merchantType: 'Bank Transfer'});
+  const usdt = await db.usdtrate.find({});
   await dbCon.closeDB();
-  res.json(user)
+  res.json({user:user,usdt:usdt})
 } catch (error) {
   console.log(error);
   return error;

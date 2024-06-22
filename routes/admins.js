@@ -184,6 +184,7 @@ router.post('/getdipositRequest', async function(req, res, next) {
 
 
 
+
 router.post('/acceptDipositRequest', async function(req, res, next) {
   try {
   await dbCon.connectDB()
@@ -346,6 +347,7 @@ router.post('/getverificationRequest', async function(req, res, next) {
   try {
   await dbCon.connectDB()
   const verification= await db.verification.find({varyficatinStatus: 'inReview'});
+  //console.log(verification);
     await dbCon.closeDB();
     res.json(verification);
 } catch (error) {

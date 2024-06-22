@@ -742,12 +742,14 @@ function multiCurrency(userID){
             </ul>\
           </div>\
         </div>')
+        
 
         $.post('/user/getBankMerchant',{},function(data){
           console.log(data)
-          if(data.length >0){
-            data.forEach(val => {
-              var usdtCurrencyRate=0;
+          if(data.user.length >0){
+            data.user.forEach(val => {
+              var usdtCurrencyRate=Number(val.usdtRate);
+              console.log(data.usdt);
               $("#bankMerchantList").append('<li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
                 <p style="font-size: small; color: #797575 !important;" class="text-dark">\
                   <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
@@ -756,7 +758,7 @@ function multiCurrency(userID){
                   <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
                   <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.OrderTime+' min</span>\
                   <span class="float-end">Bank Transfer</span>\
-                  <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  0.912</span>\
+                  <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+usdtCurrencyRate+'</span>\
                   <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">Buy</button></span>\
                   <br> Limit <span style="color: #fffbfb;">'+val.currencySymbol+''+val.limitFrom+' - '+val.currencySymbol+''+val.limitTo+'</span>\
                   <input type="hidden" id="userID" value="1">\
