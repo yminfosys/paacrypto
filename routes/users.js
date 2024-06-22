@@ -922,7 +922,7 @@ router.post('/editmerchantNickname', async function(req, res, next) {
 router.post('/getBankMerchant', async function(req, res, next) {
   try {
   await dbCon.connectDB();
-  const user= await db.merchant.find({onlineOffline:1, merchantType: 'Bank Transfer'});
+  const user= await db.merchant.find({onlineOffline:1, merchantType: 'Bank Transfer', currency:req.body.myCurrency});
   const usdt = await db.usdtrate.find({});
   await dbCon.closeDB();
   res.json({user:user,usdt:usdt})
@@ -936,7 +936,7 @@ router.post('/getBankMerchant', async function(req, res, next) {
 
 //db.cashwalletusers.findOneAndUpdate({mobile:'8509239522'},{$set:{userName:'Sukanta Sardar'}})
 
-//
+//{ "_id" : ObjectId("6673b97ffa820251f5d846b2"), "userName" : "CHONDON CHOKROBORTTY", "userID" : 9, "accountNumber" : "1718860159792", "multyCurrencyPermition" : "No", "password" : "$2b$10$8I7LxDi1b9NmiyOsboBiZ.CBjinKDODHd8geZd1gBSO1lRnYz538S", "email" : "chondon36@gmail.com", "mobile" : "9064104132", "varyficatinStatus" : "inReview", "country" : "India", "countryCode" : "+91", "currency" : "INR", "currencySymbol" : "₹", "accountBalance" : "0", "usdtBalance" : "0", "regdate" : ISODate("2024-06-20T05:09:19.800Z"), "__v" : 0 }
 
 
 

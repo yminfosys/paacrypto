@@ -710,28 +710,27 @@ function multiCurrency(userID){
    
     switch (val) {
       case "1":
-       $("#withdralBody").html(' <div class="mb-3">\
+       $("#withdralBody").html('<div class="mb-3">\
           <label for="exampleInputText1" class="form-label">USDT Token Address</label>\
           <input type="text" class="form-control" id="usdtTokenAddress" aria-describedby="textHelp">\
           <div id="textHelp" class="text">BEP-20 Network Chennel</div>\
-        </div>\
-        <div class="mb-3">\
-          <label for="exampleInputText1" class="form-label">USDT</label>\
-          <input type="text" class="form-control" id="UsdtWithdrawl" aria-describedby="textHelp">\
-        </div>\
-        <div class="mb-3">\
-        <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
-        <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
-        </div>\
-        <div class="d-grid gap-2">\
-          <button onclick="withdrawlCrypto('+userID+')" class="btn btn-primary" type="button">Submit</button>\
-        </div>')
+          </div>\
+          <div class="mb-3">\
+            <label for="exampleInputText1" class="form-label">USDT</label>\
+            <input type="text" class="form-control" id="UsdtWithdrawl" aria-describedby="textHelp">\
+          </div>\
+          <div class="mb-3">\
+          <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
+          <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
+          </div>\
+          <div class="d-grid gap-2">\
+            <button onclick="withdrawlCrypto('+userID+')" class="btn btn-primary" type="button">Submit</button>\
+          </div>')
         break;
 
         case "2":
 
           $("#topBacground").css({"display":"none"});
-
           $("#view").html('<div style="background-color: rgb(50, 63, 63); color: #f1de0b; margin-top: 10vh;" class="card">\
           <div class="card-header">\
             <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
@@ -744,39 +743,72 @@ function multiCurrency(userID){
         </div>')
         
 
-        $.post('/user/getBankMerchant',{},function(data){
-          console.log(data)
+        $.post('/user/getBankMerchant',{myCurrency:myCurrency},function(data){
+          //console.log(data)
           if(data.user.length >0){
             data.user.forEach(val => {
-              var usdtCurrencyRate=Number(val.usdtRate);
-              console.log(data.usdt);
-              $("#bankMerchantList").append('<li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
-                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
-                  <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
-                  <span style="font-size: larger; color: #fffbfb;"> '+val.merchantNickname+' </span> &nbsp; \
-                  <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
-                  <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
-                  <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.OrderTime+' min</span>\
-                  <span class="float-end">Bank Transfer</span>\
-                  <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+usdtCurrencyRate+'</span>\
-                  <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">Buy</button></span>\
-                  <br> Limit <span style="color: #fffbfb;">'+val.currencySymbol+''+val.limitFrom+' - '+val.currencySymbol+''+val.limitTo+'</span>\
-                  <input type="hidden" id="userID" value="1">\
-                </p>\
-                <div id="marchantID" style="color: #fffbfb; display: none;" >\
-                  <span>Available Balance : '+val.currencySymbol+' 120000</span>\
-                  <div class="row">\
-                    <label for="exampleInputText1" class="form-label">Amount</label>\
-                    <div class="col">\
-                      <input  type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
-                    </div>\
-                    <div class="col">\
-                      <button onclick="createMarchantOrder()" type="button" class="btn btn-sm btn-success float-end">Send</button>\
-                    </div>\
-                  </div>\
-                </div>\
-              </li>')
-            });
+              if(data.usdt.length >0){
+                data.usdt.forEach(usdtval => {
+                  if( usdtval.currency == val.currency){
+                    ///////Limit conntrol///////
+                    var limitfrom=val.limitFrom;
+                    var limitto =val.limitTo;
+                    var total = val.totalFund;
+                    var proscced=0;
+                    console.log("limitFrom",limitfrom, "limitTo",limitto,"myCurrency", myCurrency)
+                    if(Number(val.totalFund) > Number(val.limitFrom)){
+                      if(Number(val.totalFund) > Number(val.limitTo)){
+                        proscced=1;
+                        console.log("ok")
+                      }else{
+                        limitto = total;
+                        console.log("okoo")
+                        proscced=1;
+                      }
+                    }
+
+                    ////////user Balance////////
+                    if(Number(myBalance) > Number(total)){
+                      myBalance=total;
+                    }
+
+
+                    if(proscced ==1){
+                      var usdtCurrencyRate = (Number(val.usdtRate)/Number(usdtval.usdtRate)).toFixed(2);
+                      $("#bankMerchantList").append('<li id="marh'+val.merchantuserID+'" class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+                      <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                        <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                        <span style="font-size: larger; color: #fffbfb;"> '+val.merchantNickname+' </span> &nbsp; \
+                        <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                        <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                        <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.OrderTime+' min</span>\
+                        <span class="float-end">Bank Transfer</span>\
+                        <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+usdtCurrencyRate+'</span>\
+                        <span class="float-end" > <button onclick="marchantOrdrtInit('+val.merchantuserID+')" type="button" class="btn btn-sm btn-success">Buy</button></span>\
+                        <br> Limit <span style="color: #fffbfb;">'+val.currencySymbol+''+limitfrom+' - '+val.currencySymbol+''+limitto+'</span>\
+                        <input type="hidden" id="userID" value="1">\
+                      </p>\
+                      <div id="marchantID'+val.merchantuserID+'" style="color: #fffbfb; display: none;" >\
+                        <span>Available Balance : '+val.currencySymbol+' '+total+'</span>\
+                        <div class="row">\
+                          <label for="exampleInputText1" class="form-label">Amount</label>\
+                          <div class="col">\
+                            <input  type="text" class="form-control" value="'+myBalance+'" id="OrderAmt">\
+                          </div>\
+                          <div class="col">\
+                            <button onclick="createMarchantOrder()" type="button" class="btn btn-sm btn-success float-end">Send</button>\
+                          </div>\
+                        </div>\
+                      </div>\
+                    </li>')
+
+                    }
+
+
+                  }
+                })
+              }
+            })
 
           }else{
             $("#bankMerchantList").append('<li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
@@ -801,7 +833,7 @@ function multiCurrency(userID){
           </div>\
           <div class="card-body " style="height: 80vh; margin-bottom: 10vh; overflow-y: auto;">\
             <ul  class="list-group">\
-              <li class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
+              <li id="" class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
                 <p style="font-size: small; color: #797575 !important;" class="text-dark">\
                   <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
                   <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp;\
@@ -839,7 +871,21 @@ function multiCurrency(userID){
     }
   }
 
+var tt=0;
+  function marchantOrdrtInit(merchantuserID){
+    if(tt==0){
+      $('#marchantID'+merchantuserID+'').css({"display":"block"});
+      $('#marh'+merchantuserID+'').css({"height":"27vh"});
+      tt=1;
+    }else{
+      $('#marchantID'+merchantuserID+'').css({"display":"none"});
+      $('#marh'+merchantuserID+'').css({"height":"15vh"});
+      tt=0;
+    }
 
+    
+    
+  }
 
   function withdrawlCrypto(userID){
     var myCurrency=$("#myCurrency").val();
