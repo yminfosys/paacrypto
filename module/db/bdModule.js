@@ -54,16 +54,22 @@ var merchantmodul = mongoose.model('cashwalletmerchants', merchantSchema);
 const merchantorderSchema = new mongoose.Schema({ 
     userName:String,
     userID:Number,
-    merchantName:String,
+    merchantNickname:String,
     merchantuserID:Number,
     OrderID:String,
     merchantType:String,
     postCode:String,
     merchantStatus:String,
     orderAmount:String,
-    orderPrice:String,
+    marchantPaytoCust:String,
+    orderTime:String,
+    frzeeFiatAmount:String,
+    frzeeUsdtAmount:String,
+    usdtRate:String,
+    currencyRate:String,
     currency:String,
     currencySymbol:String,
+    orderStatus:String,
     date: { type: Date, default: Date.now }
 });
 var merchantordermodul = mongoose.model('cashwalletmerchantorders', merchantorderSchema);
@@ -101,6 +107,24 @@ const verificationSchema = new mongoose.Schema({
     date:{ type: Date, default: Date.now }
 });
 var verificationmodul = mongoose.model('cashwalletverifications', verificationSchema);
+
+const paymentmethodSchema = new mongoose.Schema({ 
+    userName:String,
+    userID:Number,
+    paymentMethod:String,
+    country:String,
+    currency:String,
+    upi:String,
+    bankName:String,
+    accountNo:String,
+    ifscCode:String,
+    branch:String,
+    branchDistrict:String,
+    sortCode:String,
+    IBAN:String,
+    date:{ type: Date, default: Date.now }
+});
+var paymentmethodmodul = mongoose.model('cashwalletpaymentmethods', paymentmethodSchema);
 
 const adminSchema = new mongoose.Schema({ 
     userID:Number,
@@ -232,5 +256,6 @@ module.exports={
     charges:chargesmodul,
     forgetPassword:forgetPasswordmodul,
     merchant:merchantmodul,
-    merchantorder:merchantordermodul
+    merchantorder:merchantordermodul,
+    paymentmethod:paymentmethodmodul
 }

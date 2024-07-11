@@ -924,14 +924,131 @@ router.post('/getBankMerchant', async function(req, res, next) {
   await dbCon.connectDB();
   const user= await db.merchant.find({onlineOffline:1, merchantType: 'Bank Transfer', currency:req.body.myCurrency});
   const usdt = await db.usdtrate.find({});
+  const paymentMethod = await db.paymentmethod.findOne({currency:req.body.myCurrency, userID:req.body.userID});
   await dbCon.closeDB();
-  res.json({user:user,usdt:usdt})
+  console.log("paymentMethod",paymentMethod)
+  res.json({user:user,usdt:usdt,payMethod:paymentMethod});
 } catch (error) {
   console.log(error);
   return error;
 }
 
 });
+
+router.post('/updatePaymentMethod', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const paymentMethod = await db.paymentmethod.findOne({userID:req.body.userID,paymentMethod:"Bank Transfer"});
+  if(paymentMethod){
+    const paymentMethodUpdate = await db.paymentmethod.findOneAndUpdate({userID:req.body.userID,paymentMethod:"Bank Transfer"},{
+      $set:{
+          userID:req.body.userID,
+          paymentMethod:req.body.paymentMethod,
+          currency:req.body.currency,
+          bankName:req.body.bankName,
+          accountNo:req.body.accountNo,
+          ifscCode:req.body.ifscCode,
+          branch:req.body.branch,
+          branchDistrict:req.body.branchDistrict,
+          sortCode:req.body.sortCode,
+          IBAN:req.body.sortCode
+      }
+    })
+    await dbCon.closeDB();
+    res.send("ok")
+  }else{
+    const paymentMethodsave = await db.paymentmethod({
+      userID:req.body.userID,
+      paymentMethod:req.body.paymentMethod,
+      currency:req.body.currency,
+      bankName:req.body.bankName,
+      accountNo:req.body.accountNo,
+      ifscCode:req.body.ifscCode,
+      branch:req.body.branch,
+      branchDistrict:req.body.branchDistrict,
+      sortCode:req.body.sortCode,
+      IBAN:req.body.sortCode
+    })
+    await paymentMethodsave.save();
+    await dbCon.closeDB();
+    res.send("ok")
+  }
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+router.post('/createMarchantOrder', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const marchant= await db.merchant.findOne({merchantuserID:req.body.marchantID});
+  const myCurrency = await db.mycurrency.findOne({userID:req.body.userID});
+  const user = await db.user.findOne({userID:req.body.userID});
+  var marchantPaytoCust = Number(req.body.orderAmt) * Number(req.body.CurrencyRate);
+  var frzeUSDT=Number(req.body.orderAmt) / (Number(myCurrency.lastcheckBalance) / Number(myCurrency.lastCheckUsdtAmount))
+  var uid = (new Date().getTime()).toString(9)
+  
+  if(Number(req.body.orderAmt) < (Number(myCurrency.lastcheckBalance) - Number(myCurrency.frzeeFiatAmount))){
+  const order = await db.merchantorder({
+  userName:user.userName,
+  userID:req.body.userID,
+  merchantNickname:marchant.merchantNickname,
+  merchantuserID:req.body.marchantID,
+  OrderID:uid,
+  merchantType:marchant.merchantType,
+  orderAmount:req.body.orderAmt,
+  marchantPaytoCust:marchantPaytoCust,
+  orderTime:req.body.orderTime,
+  frzeeFiatAmount:req.body.orderAmt,
+  frzeeUsdtAmount:frzeUSDT,
+  usdtRate:req.body.usdtRate,
+  currencyRate:req.body.CurrencyRate,
+  currency:req.body.currency,
+  currencySymbol:req.body.currencySymbol,
+  orderStatus:"Pending"
+  });
+  await order.save();
+  const myCurrencyUpdate = await db.mycurrency.findOneAndUpdate({userID:req.body.userID},{$set:{
+  frzeeFiatAmount:Number(myCurrency.frzeeFiatAmount) + Number(req.body.orderAmt),
+  frzeeUsdtAmount:Number(myCurrency.frzeeUsdtAmount) + Number(frzeUSDT)
+  }});
+  const marchantUpdate = await db.merchant.findOneAndUpdate({merchantuserID:req.body.marchantID},{$set:{
+    totalFund:Number(marchant.totalFund) - Number(marchantPaytoCust)
+    }});
+
+  await dbCon.closeDB();
+   res.send("pass")
+  }else{
+   res.send("fall")
+  }
+
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+
+router.post('/orderList', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user = await db.merchantorder.find({userID:req.body.userID});
+  await dbCon.closeDB();
+  res.json(user);
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+});
+
+
+
+
 
 
 //db.cashwalletusers.findOneAndUpdate({mobile:'8509239522'},{$set:{userName:'Sukanta Sardar'}})

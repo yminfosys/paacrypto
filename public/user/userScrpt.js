@@ -468,6 +468,8 @@ function multiCurrency(userID){
         </div>\
         <ul class="list-group mt-3">\
         <li class="list-group-item" onclick="setResetTpin('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Set / Re-set T-Pin</li>\
+        <li class="list-group-item" onclick="paymethodInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Add Payment Method</li>\
+        <li class="list-group-item" onclick="orderDetails('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Order</li>\
         <li class="list-group-item" onclick="merchantInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Marchant</li>\
         <li class="list-group-item" onclick="grievanceInit('+userID+')"  data-bs-dismiss="offcanvas" aria-label="Close">Grievance</li>\
         <li class="list-group-item" onclick="logout()"  data-bs-dismiss="offcanvas" aria-label="Close">Logout</li>\
@@ -743,7 +745,7 @@ function multiCurrency(userID){
         </div>')
         
 
-        $.post('/user/getBankMerchant',{myCurrency:myCurrency},function(data){
+        $.post('/user/getBankMerchant',{myCurrency:myCurrency,userID:userID},function(data){
           //console.log(data)
           if(data.user.length >0){
             data.user.forEach(val => {
@@ -755,26 +757,30 @@ function multiCurrency(userID){
                     var limitto =val.limitTo;
                     var total = val.totalFund;
                     var proscced=0;
-                    console.log("limitFrom",limitfrom, "limitTo",limitto,"myCurrency", myCurrency)
+                   // console.log("limitFrom",limitfrom, "limitTo",limitto,"myCurrency", myCurrency)
                     if(Number(val.totalFund) > Number(val.limitFrom)){
                       if(Number(val.totalFund) > Number(val.limitTo)){
                         proscced=1;
-                        console.log("ok")
+                       // console.log("ok")
                       }else{
                         limitto = total;
-                        console.log("okoo")
+                       // console.log("okoo")
                         proscced=1;
                       }
                     }
 
                     ////////user Balance////////
+                    var mybalance=myBalance
                     if(Number(myBalance) > Number(total)){
-                      myBalance=total;
+                      mybalance =total;
                     }
 
 
                     if(proscced ==1){
-                      var usdtCurrencyRate = (Number(val.usdtRate)/Number(usdtval.usdtRate)).toFixed(2);
+
+                      if(data.payMethod){
+                        var usdtCurrencyRate = (Number(val.usdtRate)/Number(usdtval.usdtRate)).toFixed(2);
+                        
                       $("#bankMerchantList").append('<li id="marh'+val.merchantuserID+'" class="list-group-item mb-3" style="height: 15vh; background-color: rgb(50, 63, 63); border: none;">\
                       <p style="font-size: small; color: #797575 !important;" class="text-dark">\
                         <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
@@ -786,24 +792,29 @@ function multiCurrency(userID){
                         <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+usdtCurrencyRate+'</span>\
                         <span class="float-end" > <button onclick="marchantOrdrtInit('+val.merchantuserID+')" type="button" class="btn btn-sm btn-success">Buy</button></span>\
                         <br> Limit <span style="color: #fffbfb;">'+val.currencySymbol+''+limitfrom+' - '+val.currencySymbol+''+limitto+'</span>\
-                        <input type="hidden" id="userID" value="1">\
+                         <input type="hidden" id="currencySymbol'+val.merchantuserID+'" value="'+val.currencySymbol+'">\
+                         <input type="hidden" id="orderTime'+val.merchantuserID+'" value="'+val.OrderTime+'">\
+                         <input type="hidden" id="CurrencyRate'+val.merchantuserID+'" value="'+usdtCurrencyRate+'">\
                       </p>\
                       <div id="marchantID'+val.merchantuserID+'" style="color: #fffbfb; display: none;" >\
                         <span>Available Balance : '+val.currencySymbol+' '+total+'</span>\
                         <div class="row">\
                           <label for="exampleInputText1" class="form-label">Amount</label>\
                           <div class="col">\
-                            <input  type="text" class="form-control" value="'+myBalance+'" id="OrderAmt">\
+                            <input  type="text" class="form-control" value="'+mybalance+'" id="OrderAmt'+val.merchantuserID+'">\
                           </div>\
                           <div class="col">\
-                            <button onclick="createMarchantOrder()" type="button" class="btn btn-sm btn-success float-end">Send</button>\
+                            <button onclick="createMarchantOrder(\''+userID+'\',\''+val.merchantuserID+'\',\''+val.usdtRate+'\',\''+myCurrency+'\')" type="button" class="btn btn-sm btn-success float-end">Send</button>\
                           </div>\
                         </div>\
                       </div>\
                     </li>')
 
+                      }else{
+                        
+                        $("#bankMerchantList").html('Add Mayment Method')
+                      }
                     }
-
 
                   }
                 })
@@ -882,9 +893,35 @@ var tt=0;
       $('#marh'+merchantuserID+'').css({"height":"15vh"});
       tt=0;
     }
+  }
 
+  function createMarchantOrder(userID,marchantID,usdtRate,currency){
+    console.log(userID,marchantID,usdtRate,currency)
+    var orderAmt=$('#OrderAmt'+marchantID+'').val();
+    var currencySymbol=$('#currencySymbol'+marchantID+'').val();
+    var CurrencyRate=$('#CurrencyRate'+marchantID+'').val();
+    var orderTime=$('#orderTime'+marchantID+'').val();
     
-    
+
+    console.log(orderAmt, currencySymbol,CurrencyRate)
+     $.post('/user/createMarchantOrder',{
+      userID:userID,
+      marchantID:marchantID,
+      usdtRate:usdtRate,
+      currency:currency,
+      orderAmt:orderAmt,
+      orderTime:orderTime,
+      currencySymbol:currencySymbol,
+      CurrencyRate:CurrencyRate
+    },function(data){
+      if(data=="pass"){
+        orderDetails(userID,"Pending");
+      }else{
+        alert("Worng Order Amount")
+      }
+      
+     })
+   
   }
 
   function withdrawlCrypto(userID){
@@ -1624,6 +1661,306 @@ var tt=0;
     
     
   }
+
+
+  function paymethodInit(userID){
+    $.post('/user/getUser',{userID:userID},function(user){
+      if(user){
+        $("#topBacground").css({"display":"none"});
+        switch (user.currency) {
+          case "GBP":
+            $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+            <div class="card-header">\
+              <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+             <h2>Add Payment Method</h2> \
+            </div>\
+          <div class="card-body">\
+              <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Account No:</label>\
+              <input type="text" class="form-control" id="gbpBankAccountNo">\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Sort Code:</label>\
+              <input type="text" class="form-control" id="gbpsortCode" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Name:</label>\
+              <input type="text" class="form-control" id="gbpbankName" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Branch / Address:</label>\
+              <input type="text" class="form-control" id="gbpbranchName" >\
+            </div>\
+            <div class="mb-3">\
+            <button onclick="addBank(\'GBP\',\''+userID+'\')" type="button" class="btn btn-primary">Submit</button>\
+            </div>\
+              </div>\
+            </div>')
+
+          break;  
+
+          case "INR":
+            $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+            <div class="card-header">\
+              <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+             <h2>Add Payment Method</h2> \
+            </div>\
+          <div class="card-body">\
+              <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Account No:</label>\
+              <input type="text" class="form-control" id="inrbankAccountNo">\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">IFSC Code:</label>\
+              <input type="text" class="form-control" id="inrIfscCode" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Name:</label>\
+              <input type="text" class="form-control" id="inrbankName" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Branch / Address:</label>\
+              <input type="text" class="form-control" id="inrbranchName" >\
+            </div>\
+            <div class="mb-3">\
+            <button onclick="addBank(\'INR\',\''+userID+'\')" type="button" class="btn btn-primary">Submit</button>\
+            </div>\
+              </div>\
+            </div>')
+          break;  
+
+          case "BDT":
+            $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+            <div class="card-header">\
+              <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+             <h2>Add Payment Method</h2> \
+            </div>\
+          <div class="card-body">\
+              <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Account No:</label>\
+              <input type="text" class="form-control" id="bdtbankAccountNo">\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Distric Code:</label>\
+              <input type="text" class="form-control" id="bdtdistricCode" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Name:</label>\
+              <input type="text" class="form-control" id="bdtbankName" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Branch / Address:</label>\
+              <input type="text" class="form-control" id="bdtbranchName" >\
+            </div>\
+            <div class="mb-3">\
+            <button onclick="addBank(\'BDT\',\''+userID+'\')" type="button" class="btn btn-primary">Submit</button>\
+            </div>\
+              </div>\
+            </div>')
+
+          break; 
+
+          case "EUR":
+            $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+            <div class="card-header">\
+              <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+             <h2>Add Payment Method</h2> \
+            </div>\
+          <div  class="card-body">\
+              <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">IBAN:</label>\
+              <input type="text" class="form-control" id="euribanNo">\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Bank Name:</label>\
+              <input type="text" class="form-control" id="eurbankName" >\
+            </div>\
+            <div class="mb-3">\
+              <label for="exampleInputText1" class="form-label">Branch / Address:</label>\
+              <input type="text" class="form-control" id="eurbranchName" >\
+            </div>\
+            <div class="mb-3">\
+            <button onclick="addBank(\'EUR\',\''+userID+'\')" type="button" class="btn btn-primary">Submit</button>\
+            </div>\
+              </div>\
+            </div>')
+
+          break; 
+          default:
+           break;
+        } 
+          
+      }
+    })
+  }
+
+
+  function addBank(currency,userID){
+    var bankName = "";
+    var accountNo = "";
+    var ifscCode = "";
+    var branch = "";
+    var branchDistrict = "";
+    var sortCode = "";
+    var IBAN = "";
+    switch (currency) {
+      case "GBP":
+        var accountNo =$("#gbpBankAccountNo").val().trim();
+        var sortCode =$("#gbpsortCode").val().trim();
+        var bankName =$("#gbpbankName").val().trim();
+        var branch =$("#gbpbranchName").val().trim();
+        $.post('/user/updatePaymentMethod',{
+        userID:userID,
+        paymentMethod:"Bank Transfer",
+        currency:currency,
+        bankName:bankName,
+        accountNo:accountNo,
+        ifscCode:"",
+        branch:branch,
+        branchDistrict:"",
+        sortCode:sortCode,
+        IBAN:""
+        },function(user){
+          paysuccess();
+        });
+      break; 
+      case "EUR":
+        var IBAN =$("#euribanNo").val().trim();
+        var bankName =$("#eurbankName").val().trim();
+        var branch =$("#eurbranchName").val().trim();
+        $.post('/user/updatePaymentMethod',{
+          userID:userID,
+          paymentMethod:"Bank Transfer",
+          currency:currency,
+          bankName:bankName,
+          accountNo:accountNo,
+          ifscCode:"",
+          branch:branch,
+          branchDistrict:"",
+          sortCode:"",
+          IBAN:IBAN
+        },function(user){
+          paysuccess();
+        });
+      break;
+      case "INR":
+        var accountNo =$("#inrbankAccountNo").val().trim();
+        var ifscCode =$("#inrIfscCode").val().trim();
+        var bankName =$("#inrbankName").val().trim();
+        var branch =$("#inrbranchName").val().trim();
+        $.post('/user/updatePaymentMethod',{
+          userID:userID,
+          paymentMethod:"Bank Transfer",
+          currency:currency,
+          bankName:bankName,
+          accountNo:accountNo,
+          ifscCode:ifscCode,
+          branch:branch,
+          branchDistrict:"",
+          sortCode:"",
+          IBAN:""
+        },function(user){
+          paysuccess();
+        });
+      break; 
+      case "BDT":
+        var accountNo =$("#bdtbankAccountNo").val().trim();
+        var branchDistrict =$("#bdtdistricCode").val().trim();
+        var bankName =$("#bdtbankName").val().trim();
+        var branch =$("#bdtbranchName").val().trim();
+        $.post('/user/updatePaymentMethod',{
+          userID:userID,
+          paymentMethod:"Bank Transfer",
+          currency:currency,
+          bankName:bankName,
+          accountNo:accountNo,
+          ifscCode:"",
+          branch:branch,
+          branchDistrict:branchDistrict,
+          sortCode:"",
+          IBAN:""
+        },function(user){
+          paysuccess();
+        });
+      break;
+      default:
+      break;  
+    }
+  }
+
+  function paysuccess(){
+    $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+    <div class="card-header">\
+      <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+    <h2>Add Payment Method</h2> \
+    </div>\
+  <div  class="card-body">\
+   <p>Payment Method Successfully Added</p>\
+  </div>\
+</div>');
+  }
+
+
+  function orderDetails(userID,orderType){
+    $.post('/user/orderList',{
+      userID:userID,
+      orderType:orderType
+    },function(data){
+      if(data.length > 0){
+        $("#topBacground").css({"display":"none"});
+        $("#view").html(' <div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; overflow-y: auto; ">\
+      <div class="card-header">\
+        <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+      <h2>Order</h2> \
+      <div class="row">\
+          <div class="col">\
+              <span>Pending</span>\
+          </div>\
+          <div class="col">\
+              <span>Cancel</span>\
+          </div>\
+          <div class="col">\
+              <span>Complete</span>\
+          </div>\
+      </div>\
+      </div>\
+      <div  class="card-body">\
+      <ul id="userOrderList" class="list-group" style="background-color: #093b2c !important; overflow-y: auto;">\
+      </ul>\
+      </div>\
+      </div>');
+     
+      
+
+      
+
+      
+        data.forEach(val => {
+          console.log(val)
+          $("#userOrderList").append('<li class="list-group-item" aria-current="true" style="height: 23vh; background-color: rgb(50, 63, 63); border: none;">\
+          <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+              <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+              <span style="font-size: larger; color: #fffbfb;"> '+val.merchantNickname+' </span> &nbsp;\
+              <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+              <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+              <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.orderTime+' min</span>\
+              <span class="float-end">'+val.merchantType+' </span>\
+              <br> <span style="color: #fffbfb;"> Order ID : '+val.OrderID+'</span>\
+              <br> Payble Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+val.marchantPaytoCust+'</span>\
+              <br> Currceny Rate <span style="color: #fffbfb;">'+val.currencySymbol+''+val.currencyRate+'</span>\
+              <br> Order Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+val.orderAmount+'</span>\
+              <br><div class="float-end"> <span style="color: #fffbfb;">Time : 0:0:0</span>\
+              </div> \
+              <input type="hidden" id="f" value="1">\
+            </p>\
+      </li>')
+        });
+      }
+      
+    });
+
+  }
+
 
   function copyContent(content){
     navigator.clipboard.writeText(content);
