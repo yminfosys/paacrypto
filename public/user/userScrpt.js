@@ -1452,7 +1452,7 @@ var tt=0;
     $("#topBacground").css({"display":"none"});
     $.post('/user/getmerchant',{userID:userID},function(data){
      if(data){
-        console.log(data)
+        //console.log(data)
         if(data.merchantStatus=="Accept"){
           $("#view").html('<div class="card"  style="margin-top: 10vh; margin-bottom: 10vh; height: 80vh; ">\
           <div class="card-header">\
@@ -1512,30 +1512,13 @@ var tt=0;
               <div class="col">\
                   <div class="card-header">\
                      <h4>Merchant Order</h4>\
-                     <select class="form-select">\
-                      <option value="Bank Transfer">Pending</option>\
-                      <option value="Cash Collections">Complete</option>\
+                     <select onchange="marchentOrderList('+userID+', this.value)" class="form-select">\
+                      <option value="Pending">Pending</option>\
+                      <option value="Complete">Complete</option>\
                     </select>\
                     </div>\
                   <div class="card-body" style="height: 25vh; overflow-y: auto;">\
                       <ul id="mrchOrderlist" class="list-group">\
-                          <li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
-                            <p style="font-size: small; color: #797575 !important;" class="text-dark">\
-                              <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
-                              <span style="font-size: larger; color: #fffbfb;"> Sukanta sardar </span> &nbsp; \
-                              <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
-                              <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
-                              <span><i class="fa fa-clock-o" aria-hidden="true"></i> 15 min</span>\
-                              <span class="float-end">Bank Transfer</span>\
-                              <br><span style="font-size: medium; color: #fffbfb;">&#8377;  0.912</span>\
-                              <span class="float-end" > <button onclick="marchantOrdrtInit()" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
-                              <br> Payble Amount <span style="color: #fffbfb;">&#8377;2000.00</span>\
-                              <input type="hidden" id="userID" value="1">\
-                            </p>\
-                            <div id="marchantID" style="color: #f5efef; display: non;" >\
-                              <p>Name: Johon Dowe<br>Account No: 12235426565476765<br>IFSC: DFGH1234098<br>Branch: Kolkata<br>Bank Name: BOB</p>\
-                            </div>\
-                          </li>\
                         </ul>\
                   </div>\
               </div>\
@@ -1550,9 +1533,7 @@ var tt=0;
                 $("#onoff").prop('checked', true);
                 $("#onOffText").html('Online');
               }
-            $("#mrchOrderlist").html('')
-            
-
+           
 
         }else{
           //alert("Your are under review or cryteria not match");
@@ -1633,6 +1614,72 @@ var tt=0;
       merchantInit(userID);
     });
   } 
+  
+  
+
+
+
+  function marchentOrderList(userID,type){
+    console.log(userID,type)
+    $.post('/user/marchentOrderList',{
+      userID:userID,
+      type:type
+    },function(data){
+      if(data.length >0){
+        $("#mrchOrderlist").html('')
+        data.forEach(val => {
+          console.log(val);
+          $.post('/user/getBankdetails',{userID:val.userID},function(bank){
+            console.log(bank);
+            
+            switch (val.currency) {
+              case "GBP":
+              break;
+              case "EUR":
+                
+              break;
+              case "INR":
+                $("#mrchOrderlist").append('<li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                <span style="font-size: larger; color: #fffbfb;"> '+val.userName+' </span> &nbsp; \
+                <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.orderTime+' min</span>\
+                <span class="float-end">Bank Transfer</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">Order ID: '+val.OrderID+'</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+val.currencyRate+'</span>\
+                <span class="float-end" > <button onclick="marchantOrdrtComplete('+val.OrderID+')" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
+                <br> Payble Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+Number(val.marchantPaytoCust).toFixed(2)+'</span>\
+               </p>\
+              <div id="bankdetails'+val.OrderID+'" style="color: #f5efef; display: non;" >\
+                <p>Name: '+val.userName+'<br>Account No: '+bank.accountNo+'<br>IFSC: '+bank.ifscCode+'<br>Branch: '+bank.branch+'<br>Bank Name: '+bank.bankName+'</p>\
+              </div>\
+            </li>')
+              break;
+              case "BDT":
+              break;
+              default:
+              break;
+            }
+          
+          })
+          
+        });
+      }else{
+        $("#mrchOrderlist").html('')
+      }
+      
+     
+    });
+  }
+
+  function marchantOrdrtComplete(OrderID){
+    $.post('/user/marchantOrdrtComplete',{OrderID:OrderID},function(data){
+
+    })
+
+  }
 
   function footer(userID){
    // alert(userID)
@@ -1929,14 +1976,9 @@ var tt=0;
       </ul>\
       </div>\
       </div>');
-     
-      
 
-      
-
-      
         data.forEach(val => {
-          console.log(val)
+          //console.log(val)
           $("#userOrderList").append('<li class="list-group-item" aria-current="true" style="height: 23vh; background-color: rgb(50, 63, 63); border: none;">\
           <p style="font-size: small; color: #797575 !important;" class="text-dark">\
               <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \

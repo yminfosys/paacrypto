@@ -1036,7 +1036,7 @@ router.post('/createMarchantOrder', async function(req, res, next) {
 router.post('/orderList', async function(req, res, next) {
   try {
   await dbCon.connectDB();
-  const user = await db.merchantorder.find({userID:req.body.userID});
+  const user = await db.merchantorder.find({userID:req.body.userID,orderStatus:"Pending"});
   await dbCon.closeDB();
   res.json(user);
 } catch (error) {
@@ -1045,6 +1045,49 @@ router.post('/orderList', async function(req, res, next) {
 }
 
 });
+
+router.post('/marchentOrderList', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user = await db.merchantorder.find({merchantuserID:req.body.userID,orderStatus:req.body.type});
+  await dbCon.closeDB();
+  res.json(user);
+} catch (error) {
+  console.log(error);
+  return error;
+}
+});
+
+router.post('/getBankdetails', async function(req, res, next) {
+  try {
+  await dbCon.connectDB();
+  const user = await db.paymentmethod.findOne({userID:req.body.userID,paymentMethod: "Bank Transfer"});
+  await dbCon.closeDB();
+  res.json(user);
+} catch (error) {
+  console.log(error);
+  return error;
+}
+});
+
+router.post('/marchantOrdrtComplete', async function(req, res, next) {
+  try {
+
+  await dbCon.connectDB();
+  const Order = await db.merchantorder.findOneAndUpdate({OrderID:req.body.OrderID},{$set:{orderStatus:"Complete"}});
+  await dbCon.closeDB();
+  res.json(Order);
+} catch (error) {
+  console.log(error);
+  return error;
+}
+});
+
+
+
+
+
+
 
 
 
