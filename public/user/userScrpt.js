@@ -1619,7 +1619,7 @@ var tt=0;
 
 
 
-  function marchentOrderList(userID,type){
+  async function marchentOrderList(userID,type){
     console.log(userID,type)
     $.post('/user/marchentOrderList',{
       userID:userID,
@@ -1627,15 +1627,49 @@ var tt=0;
     },function(data){
       if(data.length >0){
         $("#mrchOrderlist").html('')
-        data.forEach(val => {
+        data.forEach(async val  =>  {
           console.log(val);
-          $.post('/user/getBankdetails',{userID:val.userID},function(bank){
+          await $.post('/user/getBankdetails',{userID:val.userID},function(bank){
             console.log(bank);
             
             switch (val.currency) {
               case "GBP":
+                $("#mrchOrderlist").append('<li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                <span style="font-size: larger; color: #fffbfb;"> '+val.userName+' </span> &nbsp; \
+                <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.orderTime+' min</span>\
+                <span class="float-end">Bank Transfer</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">Order ID: '+val.OrderID+'</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+val.currencyRate+'</span>\
+                <span class="float-end" > <button onclick="marchantOrdrtComplete('+val.OrderID+')" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
+                <br> Payble Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+Number(val.marchantPaytoCust).toFixed(2)+'</span>\
+               </p>\
+              <div id="bankdetails'+val.OrderID+'" style="color: #f5efef; display: non;" >\
+                <p>Name: '+val.userName+'<br>Account No: '+bank.accountNo+'<br>Sort Code: '+bank.sortCode+'<br>Branch: '+bank.branch+'<br>Bank Name: '+bank.bankName+'</p>\
+              </div>\
+            </li>')
               break;
               case "EUR":
+                $("#mrchOrderlist").append('<li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                <span style="font-size: larger; color: #fffbfb;"> '+val.userName+' </span> &nbsp; \
+                <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.orderTime+' min</span>\
+                <span class="float-end">Bank Transfer</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">Order ID: '+val.OrderID+'</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+val.currencyRate+'</span>\
+                <span class="float-end" > <button onclick="marchantOrdrtComplete('+val.OrderID+')" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
+                <br> Payble Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+Number(val.marchantPaytoCust).toFixed(2)+'</span>\
+               </p>\
+              <div id="bankdetails'+val.OrderID+'" style="color: #f5efef; display: non;" >\
+                <p>Name: '+val.userName+'<br>IBAN NO: '+bank.IBAN+'<br>Branch: '+bank.branch+'<br>Bank Name: '+bank.bankName+'</p>\
+              </div>\
+            </li>')
                 
               break;
               case "INR":
@@ -1658,6 +1692,24 @@ var tt=0;
             </li>')
               break;
               case "BDT":
+                
+                $("#mrchOrderlist").append('<li class="list-group-item mb-3" style="background-color: rgb(50, 63, 63); border: none;">\
+                <p style="font-size: small; color: #797575 !important;" class="text-dark">\
+                <span><i class="fa fa-user-circle" aria-hidden="true"></i></span> &nbsp; \
+                <span style="font-size: larger; color: #fffbfb;"> '+val.userName+' </span> &nbsp; \
+                <span style="color: #f1de0b;"><i class="fa fa-check-square" aria-hidden="true"></i></span>\
+                <br><span><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 100%</span> &nbsp; \
+                <span><i class="fa fa-clock-o" aria-hidden="true"></i> '+val.orderTime+' min</span>\
+                <span class="float-end">Bank Transfer</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">Order ID: '+val.OrderID+'</span>\
+                <br><span style="font-size: medium; color: #fffbfb;">'+val.currencySymbol+'  '+val.currencyRate+'</span>\
+                <span class="float-end" > <button onclick="marchantOrdrtComplete('+val.OrderID+')" type="button" class="btn btn-sm btn-success">I have Tranfer</button></span>\
+                <br> Payble Amount <span style="color: #fffbfb;">'+val.currencySymbol+''+Number(val.marchantPaytoCust).toFixed(2)+'</span>\
+               </p>\
+              <div id="bankdetails'+val.OrderID+'" style="color: #f5efef; display: non;" >\
+                <p>Name: '+val.userName+'<br>Account No: '+bank.accountNo+'<br>BranchDistrict Code: '+bank.branchDistrict+'<br>Branch: '+bank.branch+'<br>Bank Name: '+bank.bankName+'</p>\
+              </div>\
+            </li>')
               break;
               default:
               break;
