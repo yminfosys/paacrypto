@@ -20,6 +20,7 @@ $( document ).ready(function() {
     //     });
     // }
 
+
  
 
   
@@ -1208,41 +1209,43 @@ var tt=0;
 
   function currencyConvert(userID){
     $.post('/user/getUser',{userID:userID},function(user){
+      console.log(user);
       if(user.varyficatinStatus=="Verified"){
-        $("#topBacground").css({"display":"none"});
-          $("#view").html('<div style="margin-top: 10vh;" class="row p-2">\
-          <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
-          <div class="col">\
-              <label class="">My Currency</label>\
-              <select onchange="getMyBalance()" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">\
-                <option selected>INR</option>\
-                <option value="1">BDT</option>\
-              </select>\
-              <div class="mb-3">\
-                <label class="">My Balance <br> Rs. 1000</label>\
-                <label for="exampleInputText1" class="form-label">Enter Amount</label>\
-                <input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
-             </div>\
-          </div>\
-          <div class="col">\
-            <label class="">Convert Currency</label>\
-            <select style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">\
-              <option selected>INR</option>\
-              <option value="1">BDT</option>\
-            </select>\
-            <label class="">&#Pound; 40 <br><br>Fee : 5</label>\
-          </div>\
-          <div class="d-grid gap-2 mb-3">\
-            <button type="button" class="btn btn-warning">Verify</button>\
-          </div>\
-         <div class="mb-3">\
-          <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
-          <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
-          </div>\
-          <div class="d-grid gap-2">\
-            <button onclick="ccgfdgfhto('+userID+')" class="btn btn-primary" type="button">Convert</button>\
-          </div>\
-        </div>');
+        alert('Upgrade your Account')
+        // $("#topBacground").css({"display":"none"});
+        //   $("#view").html('<div style="margin-top: 10vh;" class="row p-2">\
+        //   <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+        //   <div class="col">\
+        //       <label class="">My Currency</label>\
+        //       <select onchange="getMyBalance()" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">\
+        //         <option selected>INR</option>\
+        //         <option value="1">BDT</option>\
+        //       </select>\
+        //       <div class="mb-3">\
+        //         <label class="">My Balance <br> Rs. 1000</label>\
+        //         <label for="exampleInputText1" class="form-label">Enter Amount</label>\
+        //         <input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
+        //      </div>\
+        //   </div>\
+        //   <div class="col">\
+        //     <label class="">Convert Currency</label>\
+        //     <select style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">\
+        //       <option selected>INR</option>\
+        //       <option value="1">BDT</option>\
+        //     </select>\
+        //     <label class="">&#Pound; 40 <br><br>Fee : 5</label>\
+        //   </div>\
+        //   <div class="d-grid gap-2 mb-3">\
+        //     <button type="button" class="btn btn-warning">Verify</button>\
+        //   </div>\
+        //  <div class="mb-3">\
+        //   <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
+        //   <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
+        //   </div>\
+        //   <div class="d-grid gap-2">\
+        //     <button onclick="ccgfdgfhto('+userID+')" class="btn btn-primary" type="button">Convert</button>\
+        //   </div>\
+        // </div>');
       }else{
         alert("You Need to Your Verify Your Account ")
       }

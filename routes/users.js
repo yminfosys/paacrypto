@@ -22,6 +22,7 @@ var multerS3 = require('multer-s3-transform')
 const sharp = require('sharp');
 
 
+
 const {S3_ENDPOINT, BUCKET_NAME}=process.env;
 
 //console.log(S3_ENDPOINT, BUCKET_NAME);
@@ -1049,7 +1050,7 @@ router.post('/orderList', async function(req, res, next) {
 router.post('/marchentOrderList', async function(req, res, next) {
   try {
   await dbCon.connectDB();
-  const user = await db.merchantorder.find({merchantuserID:req.body.userID,orderStatus:req.body.type});
+  const user = await db.merchantorder.find({merchantuserID:req.body.userID, orderStatus:req.body.type});
   await dbCon.closeDB();
   res.json(user);
 } catch (error) {
