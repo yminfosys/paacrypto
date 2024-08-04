@@ -248,6 +248,144 @@ router.post('/getUser', async function(req, res, next) {
 })
 
 
+router.post('/getConvertCurrency', async function(req, res, next) {
+  try {
+    await dbCon.connectDB();
+    const user= await db.user.findOne({userID:req.body.userID});
+    const myCurrency= await db.mycurrency.find({userID:req.body.userID});
+    const currency= await db.contry.find();
+    await dbCon.closeDB();
+    res.json({user:user,myCurrency:myCurrency,currency:currency});
+  }catch (error) {
+    console.log(error);
+    return error;
+  }
+})
+
+
+router.post('/convertVerufy', async function(req, res, next) {
+  try {
+    await dbCon.connectDB();
+    const ConvertUsdtRate= await db.usdtrate.findOne({currency:req.body.convertCuerrency});
+    await dbCon.closeDB();
+    res.json(ConvertUsdtRate);
+  }catch (error) {
+    console.log(error);
+    return error;
+  }
+})
+
+router.post('/startCurrencyConvert', async function(req, res, next) {
+  console.log(req.body);
+  const {userID,fee,convertingFeeUsdt,convertingAmount,currency,currencySymbol,convertUsdt,afterConvertAmt,convertCuerrency,convertCuerrencySimbol} = req.body;
+  var uid = (new Date().getTime()).toString(9);
+  try {
+    await dbCon.connectDB();
+    ///////check My Currency///////////////
+    const checkMyCurrency= await db.mycurrency.findOne({userID:userID,currency:convertCuerrency});
+    const user= await db.user.findOne({userID:userID});
+    if(!checkMyCurrency){
+      const newmyCurrency= await db.mycurrency({
+        userID:userID,
+        currency:convertCuerrency,
+        currencySymbol:convertCuerrencySimbol,
+        lastcheckBalance:'0.00',
+        lastCheckUsdtAmount:'0.00',
+        frzeeFiatAmount:'0.00',
+        frzeeUsdtAmount:'0.00',
+        lastCheckDate:moment().utc().toDate()
+      });
+      await newmyCurrency.save();
+    }
+
+    ////////Withdrawal/////////////
+     const trxLdrWithdral = await db.transactionledger({
+      userID:userID,
+      trasactionID:uid,
+      /////Transact from
+      accountFrom:user.accountNumber,
+      userNameFrom:user.userName,
+      /////Transact to/////
+      accountTo:user.accountNumber,
+      userNameTo:user.userName,
+      transactionType:"Withdrawl",
+      withdralFaitAmount:convertingAmount,
+      withdralusdtAmount:convertUsdt,
+      cryptoCurrency:"USDT",
+      fiatCurrency:currency,
+      remarks:'Convert '+currency+' TO '+convertCuerrency+'',
+      transactionStatus:"Success"
+    });
+    await trxLdrWithdral.save();
+   
+
+    const trxLdrwithdralchg = await db.transactionledger({
+      userID:userID,
+      trasactionID:uid,
+      /////Transact from
+      accountFrom:user.accountNumber,
+      userNameFrom:user.userName,
+      /////Transact to/////
+      accountTo:user.accountNumber,
+      userNameTo:user.userName,
+      transactionType:"Withdrawl",
+      withdralFaitAmount:fee,
+      withdralusdtAmount:convertingFeeUsdt,
+      TransacFee:"Yes",
+      cryptoCurrency:"USDT",
+      fiatCurrency:currency,
+      remarks:"currency Convert Charges",
+      transactionStatus:"Success"
+    });
+    await trxLdrwithdralchg.save();
+
+
+    ///////Deposit////////////////
+
+    const trxLdrdeposit = await db.transactionledger({
+      userID:userID,
+      trasactionID:uid,
+      /////Transact from
+      accountFrom:user.accountNumber,
+      userNameFrom:user.userName,
+      /////Transact to/////
+      accountTo:user.accountNumber,
+      userNameTo:user.userName,
+      transactionType:"Deposit",
+      depositFaitAmount:afterConvertAmt,
+      dipositusdtAmount:convertUsdt,
+      cryptoCurrency:"USDT",
+      fiatCurrency:convertCuerrency,
+      remarks:'Convert '+currency+' TO '+convertCuerrency+'',
+      transactionStatus:"Success"
+    });
+    await trxLdrdeposit.save();
+   
+    await dbCon.closeDB();
+    
+    res.json({
+      status:"Success",
+      amount:afterConvertAmt,
+      symbol:convertCuerrencySimbol,
+      fee:fee,
+      to:user.userName,
+      toAccount:user.accountNumber,
+      date:new Date(),
+      referance:'Convert '+currency+' TO '+convertCuerrency+'',
+      txid:uid,
+      fromAccount:user.accountNumber
+    })
+
+  }catch (error) {
+    console.log(error);
+    return error;
+  }
+})
+
+
+
+
+
 router.post('/getDiposit', async function(req, res, next) {
   try {
   await dbCon.connectDB();
@@ -366,7 +504,7 @@ router.post('/updateMultiCurrencyBalance', async function(req, res, next) {
       await dbCon.closeDB();
         if (i === multiCurrency.length - 1) {
           await dbCon.connectDB()
-          const multiCurrency2= await db.mycurrency.find();
+          const multiCurrency2= await db.mycurrency.find({userID:req.body.userID});
           await dbCon.closeDB();
           res.json(multiCurrency2);
      }

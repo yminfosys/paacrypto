@@ -354,7 +354,9 @@ function logout(){
     </div>\
   </div>\
 \
-<div id="multiCurrency">\
+<div class="mb-3" >\
+  <div id="multiCurrency" class="row">\
+  </div>\
 </div>\
 <ol id="last10Transaction" style="margin-bottom: 8vh;" class="list-group list-group-numbered list-group-item-dark">\
 </ol>')
@@ -366,42 +368,19 @@ multiCurrency(userID)
 function multiCurrency(userID){
   $.post('/user/updateMultiCurrencyBalance',{userID:userID},function(multicurrency){
       if(multicurrency.length > 0 ){
-        $("#multiCurrency").html('<div class="row">\
-          <div class="col mb-3 mb-sm-0">\
-          <div style="background-color: #041b2b; color: #ccdbe6;" class="card">\
-            <div class="card-body">\
-              <h5 class="card-title">Euro</h5>\
-              <p class="card-text">0</p>\
+        //console.log(multicurrency)
+        multicurrency.forEach(val => {
+         // console.log(val)
+          $("#multiCurrency").append('<div class="col">\
+            <div style="background-color: #041b2b; color: #ccdbe6;" class="card">\
+              <div class="card-body">\
+                <h5 class="card-title">'+val.currency+'</h5>\
+                <p class="card-text">'+val.currencySymbol+' '+Number(val.lastcheckBalance).toFixed(2)+'</p>\
+              </div>\
             </div>\
-          </div>\
-        </div>\
-        <div class="col">\
-          <div style="background-color: #041b2b; color: #ccdbe6;" class="card">\
-            <div class="card-body">\
-              <h5 class="card-title">Pound</h5>\
-              <p class="card-text">0</p>\
-            </div>\
-          </div>\
-        </div>\
-        </div>\
-        <div class="row">\
-        <div class="col mb-3 mb-sm-0">\
-          <div style="background-color: #041b2b; color: #ccdbe6;" class="card">\
-            <div class="card-body">\
-              <h5 class="card-title">Doller</h5>\
-              <p class="card-text">0</p>\
-            </div>\
-          </div>\
-        </div>\
-        <div class="col">\
-          <div style="background-color: #041b2b; color: #ccdbe6;" class="card">\
-            <div class="card-body">\
-              <h5 class="card-title">Taka</h5>\
-              <p class="card-text">0</p>\
-            </div>\
-          </div>\
-        </div>\
-        </div>');
+          </div>'); 
+        });
+        
 
       profile(userID,multicurrency);
       }
@@ -576,7 +555,7 @@ function multiCurrency(userID){
   function transactionDetails(trasactionID,userID){
 
     $.post('/user/getTransactionsDetails',{ userID:userID, trasactionID:trasactionID},function(data){
-      console.log(data)
+     // console.log(data)
       if(!data.TransacFee){
         $("#topBacground").css({"display":"none"});
       $("#view").html('<div class="card" style="margin-top: 8vh; margin-bottom: 8vh; overflow-y: auto; ">\
@@ -1208,50 +1187,226 @@ var tt=0;
   /////////////Currency Convert//////////
 
   function currencyConvert(userID){
+    $("#topBacground").css({"display":"none"});
+          $("#view").html('<div style="margin-top: 10vh;" class="row p-2">\
+          <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
+          <div class="col">\
+              <label class="">My Currency</label>\
+              <select id="MyCurrency" onchange="getMyBalance(this.value)" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">\
+               <option value="">Select Currency</option>\
+              </select>\
+              <div id="MyCurrencyBalance" class="mb-3">\
+                \
+             </div>\
+          </div>\
+          <div class="col">\
+            <label class="">Convert Currency</label>\
+            <select id="Allcurrency" style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">\
+            </select>\
+            <label id="convertAmountLable"  class=""></label>\
+             <inpun id="convertingFee" type="hidden" value=""/>\
+            <inpun id="convertingFeeUsdt" type="hidden" value=""/>\
+            <inpun id="convertingAmt" type="hidden" value=""/>\
+            <inpun id="convertUsdt" type="hidden" value=""/>\
+            <inpun id="convertAmount" type="hidden" value=""/>\
+            <inpun id="convertingCurrency" type="hidden" value=""/>\
+            <inpun id="convertingCurrencySymbol" type="text" value=""/>\
+            <inpun id="convertCurrency" type="hidden" value=""/>\
+            <inpun id="convertCurrencySymbol" type="hidden" value=""/>\
+          </div>\
+          <div class="d-grid gap-2 mb-3">\
+            <button id="verifyBtn" onclick="convertVerufy()" style="display:none; " class="btn btn-warning">Verify</button>\
+          </div>\
+         <div id="tPinbtnLable" style="display:none;" class="mb-3">\
+          <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
+          <input  id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
+          </div>\
+          <div class="d-grid gap-2" >\
+            <button id="convertBtn" style="display:none; " onclick="convertCurrencyBtn('+userID+')" class="btn btn-primary" type="button">Convert</button>\
+          </div>\
+        </div>');
+        $.post('/user/getConvertCurrency',{userID:userID},function(data){
+          if(data.user.varyficatinStatus=="Verified"){
+            //console.log(data.myCurrency)
+            data.myCurrency.forEach(myCrncy => {
+             // console.log(myCrncy)
+              $("#MyCurrency").append('<option value="'+myCrncy.currency+','+myCrncy.frzeeFiatAmount+','+myCrncy.lastcheckBalance+','+myCrncy.frzeeFiatAmount+','+myCrncy.lastCheckUsdtAmount+','+myCrncy.currencySymbol+'">'+myCrncy.currency+'</option>')
+
+            });
+
+            data.currency.forEach(val => {
+            //  console.log(val)
+              $("#Allcurrency").append('<option value="'+val.currency+','+val.currencySymbol+'">'+val.currency+'</option>')
+
+            });
+           
+          }else{
+            alert("You Need to Your Verify Your Account ")
+          }
+
+        })
+        
+        
+  }
+
+  function getMyBalance(req){
+    const val=req.split(',');
+   //console.log(req.split(','))
+   var Balance= Number(val[2]) - Number(val[1]);
+   var BalanceUsdt= Number(val[4]) - Number(val[3]);
+   var currency = val[0];
+   var currencySymbol= val[5];
+   $("#MyCurrencyBalance").html('<label class="">My Balance <br> '+currencySymbol+' '+Balance.toFixed(2)+'</label>\
+      <label for="exampleInputText1" class="form-label">Enter Amount</label>\
+      <input type="text" class="form-control" id="inputAmount" aria-describedby="textHelp">\
+      ');
+
+      $("#inputAmount").focus();
+      $("#verifyBtn").css({"display":"block"});
+  }
+
+  function convertVerufy(){
+    var myCrrency= $("#MyCurrency").val().split(",");
+    var convertCurrency=$("#Allcurrency").val().split(",");
+    var currency = myCrrency[0];
+    var currencySymbol= myCrrency[5];
+    var Balance= Number(myCrrency[2]) - Number(myCrrency[1]);
+    var BalanceUsdt= Number(myCrrency[4]) - Number(myCrrency[3]);
+
+    var convertingAmount=$("#inputAmount").val();
+    var convertCuerrency =convertCurrency[0];
+    var convertCuerrencySimbol = convertCurrency[1];
+   // console.log(convertCuerrency)
+
+    var fee=Number(convertingAmount)*1/100;
+    //console.log(convertingAmount,"fee",fee)
+    if(Balance > Number(convertingAmount)+ Number(fee) && Number(convertingAmount)>0 ){
+    
+      $.post('/user/convertVerufy',{currency:currency,convertCuerrency:convertCuerrency},function(data){
+       // console.log(data)
+       if(data){
+        $("#tPinbtnLable").css({"display":"block"});
+        $("#convertBtn").css({"display":"block"});
+        $("#convertAmountLable").css({"display":"block"});
+
+        var convertingUsdtRate=Number(Balance) / Number(BalanceUsdt);
+        var convertUsdt=Number(convertingAmount) / Number(convertingUsdtRate);
+        var afterConvertAmt=Number(data.usdtRate) * Number(convertUsdt);
+        var convertingFeeUsdt=Number(fee) / Number(convertingUsdtRate);
+
+        $("#convertingFee").val(fee);
+        $("#convertingFeeUsdt").val(convertingFeeUsdt)
+        $("#convertingAmt").val(convertingAmount)
+        $("#convertUsdt").val(convertUsdt)
+        $("#convertAmount").val(afterConvertAmt)
+        $("#convertingCurrency").val(currency)
+        $("#convertingCurrencySymbol").val(currencySymbol)
+        $("#convertCurrency").val(convertCuerrency)
+        $("#convertCurrencySymbol").val(convertCuerrencySimbol)
+      
+        $("#convertAmountLable").html(''+convertCuerrencySimbol+'  '+Number(afterConvertAmt).toFixed(2)+'<br><br>Fee : '+currencySymbol+' '+fee+'');
+       }
+
+      });
+    }else{
+      $("#tPinbtnLable").css({"display":"none"});
+      $("#convertBtn").css({"display":"none"});
+      $("#convertAmountLable").css({"display":"none"});
+      alert("Check Amount")
+      $("#inputAmount").focus();
+    }
+  }
+
+  function convertCurrencyBtn(userID){
+    var fee = $("#convertingFee").val();
+    var convertingFeeUsdt = $("#convertingFeeUsdt").val()
+    var convertingAmount = $("#convertingAmt").val()
+    var convertUsdt = $("#convertUsdt").val()
+    var afterConvertAmt = $("#convertAmount").val()
+    var currency = $("#convertingCurrency").val()
+    var currencySymbol = $("#convertingCurrencySymbol").val()
+    var convertCuerrency = $("#convertCurrency").val()
+    var convertCuerrencySimbol = $("#convertCurrencySymbol").val()
+    var txPin= $("#txnPin").val();
     $.post('/user/getUser',{userID:userID},function(user){
-      console.log(user);
-      if(user.varyficatinStatus=="Verified"){
-        alert('Upgrade your Account')
-        // $("#topBacground").css({"display":"none"});
-        //   $("#view").html('<div style="margin-top: 10vh;" class="row p-2">\
-        //   <button onclick="closeWithdral()" type="button" class="btn-close float-end"></button>\
-        //   <div class="col">\
-        //       <label class="">My Currency</label>\
-        //       <select onchange="getMyBalance()" style="width: 80%;" class="form-select form-select-sm" aria-label=".form-select-sm example">\
-        //         <option selected>INR</option>\
-        //         <option value="1">BDT</option>\
-        //       </select>\
-        //       <div class="mb-3">\
-        //         <label class="">My Balance <br> Rs. 1000</label>\
-        //         <label for="exampleInputText1" class="form-label">Enter Amount</label>\
-        //         <input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp">\
-        //      </div>\
-        //   </div>\
-        //   <div class="col">\
-        //     <label class="">Convert Currency</label>\
-        //     <select style="width: 80%;" class="form-select form-select-sm mb-4" aria-label=".form-select-sm example">\
-        //       <option selected>INR</option>\
-        //       <option value="1">BDT</option>\
-        //     </select>\
-        //     <label class="">&#Pound; 40 <br><br>Fee : 5</label>\
-        //   </div>\
-        //   <div class="d-grid gap-2 mb-3">\
-        //     <button type="button" class="btn btn-warning">Verify</button>\
-        //   </div>\
-        //  <div class="mb-3">\
-        //   <label style="width: 50%; margin-left: 25%;" class="form-label text-center">T-Pin</label>\
-        //   <input id="txnPin" type="text" class="form-control text-center" style="width: 50%; margin-left: 25%;">\
-        //   </div>\
-        //   <div class="d-grid gap-2">\
-        //     <button onclick="ccgfdgfhto('+userID+')" class="btn btn-primary" type="button">Convert</button>\
-        //   </div>\
-        // </div>');
-      }else{
-        alert("You Need to Your Verify Your Account ")
+      if(user){
+        //console.log(user)
+        if(Number(user.transactionPin) == Number(txPin)){
+          alert("procid")
+          $("#convertBtn").attr('disabled','disabled');
+          $("#verifyBtn").attr('disabled','disabled');
+          $.post('/user/startCurrencyConvert',{
+            userID:userID,
+            fee :fee ,
+            convertingFeeUsdt:convertingFeeUsdt,
+            convertingAmount:convertingAmount,
+            currency:currency,
+            currencySymbol:currencySymbol,
+            convertUsdt:convertUsdt,
+            afterConvertAmt:afterConvertAmt,
+            convertCuerrency : convertCuerrency,
+            convertCuerrencySimbol :convertCuerrencySimbol
+          },function(data){
+            if(data){
+              //<img style="width: 60%; margin-left: 20%;" src="/images/logo/logo.png" class="card-img-top mt-2" alt="...">\
+              $("#topBacground").css({"display":"none"});
+              $("#view").html('<div class="card" style="margin-top: 8vh; margin-bottom: 8vh; overflow-y: auto; ">\
+              <div class="card-body">\
+                <div  class="card-header text-center mb-3">\
+                  <span class="mb-2 p-2">To '+data.to+'</span>\
+                  <p style="font-size: 30px;">'+data.symbol+' '+Number(data.amount).toFixed(2)+'</p>\
+                  <span style="border-radius: 10px; border: 1px solid #041b2b; color: #d9e3db; background-color: #0c892b;" class="p-2 h6 ">Fast Transfer</span>\
+                 </div>\
+                <ul  class="list-group">\
+                  <li class="list-group-item mb-3 p-3 bg-success active" aria-current="true">\
+                     <span style="font-size: medium;" class="badge float-end">'+data.status+'</span>\
+                    Status\
+                  </li>\
+                  <li class="list-group-item mb-2 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+data.toAccount+'</span>\
+                    To Account No\
+                  </li>\
+                  <li class="list-group-item mb-2 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+dateFormat(new Date(data.date),"dt")+'</span>\
+                    Date\
+                  </li>\
+                  <li class="list-group-item mb-2 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+data.referance+'</span>\
+                    Referance\
+                  </li>\
+                  <li class="list-group-item mb-2 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+data.txid+'</span>\
+                    Transaction ID\
+                  </li>\
+                  <li class="list-group-item mb-3 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+currencySymbol+' '+Number(data.fee).toFixed(2)+'</span>\
+                    Fee\
+                  </li>\
+                  <li class="list-group-item mb-3 p-3">\
+                    <span style="font-size: medium; color: #000;" class="badge float-end">'+data.fromAccount+'</span>\
+                    From Account No\
+                  </li>\
+                  <li class="list-group-item mb-3 p-3">\
+                    <button onclick="getUserprofile('+userID+')" type="button" class="btn btn-success">Done</button>\
+                  </li>\
+                </ul>\
+              </div>\
+            </div>')
+              }
+
+          })
+
+        }
+
+
       }
+
     })
 
+
   }
+
+
 
 /////////Account Verification///////
   function verifyNow(userID){
